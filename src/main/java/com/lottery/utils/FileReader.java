@@ -94,6 +94,21 @@ public class FileReader implements Pipe{
         }
         return aline.getDataSet();
     }
+
+        public Object[] readFile(){
+        boolean keepGoOn = true;
+
+        JSArray fileData = new JSArray(Integer.class);
+        while(keepGoOn){
+            Integer[] aline = (Integer[]) readLine();
+            if(aline.length == 0){
+                keepGoOn = false;
+            }
+            fileData.concat(aline);
+        }
+        return fileData.getDataSet();
+    }
+
     /*public byte[] readLine(){
         int loopIndex = 0;
         int lineLength = 10;

@@ -131,15 +131,28 @@ public class JSArray<T>{
         return arrInstance;
     }
 
-    public void concat(JSArray otherArr){
-        if(otherArr.get(0).getClass() != curInsType){
+    public void concat(JSArray otherObj){
+        if(otherObj.get(0).getClass() != curInsType){
 
         }else{
-            Object[] dataSet = otherArr.getDataSet();
+            Object[] dataSet = otherObj.getDataSet();
             int extendSize = dataSet.length;
             for(int i = 0;i<extendSize;i++){
                 if(dataSet[i] != null){
                     push((T)dataSet[i]);
+                }
+            }
+        }
+    }
+
+    public void concat(T[] otherArr){
+        if(otherArr[0].getClass() != curInsType){
+
+        }else{
+            int extendSize = otherArr.length;
+            for(int i = 0;i<extendSize;i++){
+                if(otherArr[i] != null){
+                    push(otherArr[i]);
                 }
             }
         }
