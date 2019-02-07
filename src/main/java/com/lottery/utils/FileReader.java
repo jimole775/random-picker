@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.File;
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.lang.Object;
+import com.lottery.utils.JSArray;
 
 public class FileReader implements Pipe{
     private InputStream ins;
@@ -79,7 +79,22 @@ public class FileReader implements Pipe{
         }
     }
 
-    public byte[] readLine(){
+    public Object[] readLine(){
+        JSArray aline = new JSArray(Integer.class);
+        boolean keepGoOn = true;
+        while(keepGoOn){
+            byte data = readByte();
+            aline.push(data);
+            // 如果遇到换行符或者结果是-1，就结束循环
+            if(isWindows() && data == 0x0A // 区别各系统之间的换行符
+                    || !isWindows() && (data == 0x0D || data == 0x0A)
+                    || data == -1){
+                keepGoOn = false;
+            }
+        }
+        return aline.getDataSet();
+    }
+    /*public byte[] readLine(){
         int loopIndex = 0;
         int lineLength = 10;
         byte[] aline = new byte[lineLength];
@@ -106,22 +121,22 @@ public class FileReader implements Pipe{
             aline[loopIndex ++] = data;
         }
         return aline;
-    }
+    }*/
 
-    public byte[] readFile(){
-        boolean keepGoOn = true;
-        byte[] result = new byte[0];
-        while(keepGoOn){
-            byte[] aline = readLine();
-            if(aline.length == 0){
-                keepGoOn = false;
-            }
-            aline = Arrays.copyOf(aline,result.length + aline.length);
-            result = aline;
-
-        }
-        return result;
-    }
+//    public byte[] readFile(){
+//        boolean keepGoOn = true;
+//        byte[] result = new byte[0];
+//        while(keepGoOn){
+//            byte[] aline = readLine();
+//            if(aline.length == 0){
+//                keepGoOn = false;
+//            }
+//            aline = Arrays.copyOf(aline,result.length + aline.length);
+//            result = aline;
+//
+//        }
+//        return result;
+//    }
 
     private byte readByte(){
         int data = -1;
