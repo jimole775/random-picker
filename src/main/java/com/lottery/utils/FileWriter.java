@@ -19,12 +19,49 @@ public class FileWriter {
         }
     }
 
-    public FileWriter write(String[] bufferString){
+    public FileWriter write(String bufferString){
+        try {
+            fop.write(bufferString.getBytes());
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+        return this;
+    }
+
+    public FileWriter writeLine(String bufferString){
+        try {
+            fop.write((bufferString + compatibleWrapString()).getBytes());
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+        }
         return this;
     }
 
     public void end(Callback endCb){
-
+        try {
+            fop.close();
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 
+    private String osName = System.getProperties().getProperty("os.name");
+
+    private boolean isWindows(){
+        return osName.contains("Windows");
+    }
+
+    private String compatibleWrapString(){
+        byte[] result;
+        if(isWindows()) {
+            result = new byte[1];
+            result[0] = 0x0A;
+        }
+        else {
+            result = new byte[2];
+            result[0] = 0x0D;
+            result[1] = 0x0A;
+        }
+        return result.toString();
+    }
 }

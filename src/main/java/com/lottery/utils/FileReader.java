@@ -18,9 +18,9 @@ public class FileReader implements Pipe{
     private String osName = System.getProperties().getProperty("os.name");
     public FileReader(String path) {
         File direction = new File("");
-        String filePath = direction.getAbsolutePath() + File.separator + path;
+        String completeFilePath = direction.getAbsolutePath() + File.separator + path;
         try {
-            ins = new FileInputStream(filePath);
+            ins = new FileInputStream(completeFilePath);
         } catch (IOException e){
             System.out.println(e.getMessage());
         }
@@ -79,34 +79,37 @@ public class FileReader implements Pipe{
         }
     }
 
-    public Object[] readLine(){
-        JSArray aline = new JSArray(Integer.class);
-        boolean keepGoOn = true;
-        while(keepGoOn){
+    public JSArray<Byte> readLine(){
+        JSArray aline = new JSArray<Byte>(Byte.class);
+        while(true){
             byte data = readByte();
+
+            if(data == -1){
+                break;
+            }
+
             aline.push(data);
             // 如果遇到换行符或者结果是-1，就结束循环
             if(isWindows() && data == 0x0A // 区别各系统之间的换行符
-                    || !isWindows() && (data == 0x0D || data == 0x0A)
-                    || data == -1){
-                keepGoOn = false;
+                    || !isWindows() && (data == 0x0D || data == 0x0A)){
+                break;
             }
         }
-        return aline.getDataSet();
+        return aline;
     }
 
-        public Object[] readFile(){
-        boolean keepGoOn = true;
+    public JSArray<Byte> readFile(){
+        JSArray fileData = new JSArray<Byte>(Byte.class);
+        while(true){
+            byte data = readByte();
 
-        JSArray fileData = new JSArray(Integer.class);
-        while(keepGoOn){
-            Integer[] aline = (Integer[]) readLine();
-            if(aline.length == 0){
-                keepGoOn = false;
+            if(data == -1){
+                break;
             }
-            fileData.concat(aline);
+
+            fileData.push(data);
         }
-        return fileData.getDataSet();
+        return fileData;
     }
 
     /*public byte[] readLine(){

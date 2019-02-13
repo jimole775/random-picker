@@ -5,6 +5,7 @@ package com.lottery;
  *
  */
 import com.lottery.utils.FileReader;
+import com.lottery.utils.JSArray;
 import com.lottery.product.CreateRateFoundation;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,29 +18,12 @@ public class App
         readFile();
     }
     private static void readFile(){
-//        FileReader fr = new FileReader("db/base/amount.txt");
-//        fr.pipe(new Callback(){
-//            public void entries(byte data){
-//                System.out.println("is run success " + data);
-//            }
-//        }).end(new Callback(){
-//            public void entries(byte data){
-//                System.out.println("is run end " + data);
-//            }
-//        });
-//        byte[] line = fr.readLine();
-//        System.out.println(new String(line));
-    CreateRateFoundation crf = new CreateRateFoundation();
-//    System.out.println(crf.getJsonObject());
+        CreateRateFoundation crf = new CreateRateFoundation();
 
-        String jsonObject = crf.getJsonObject();
-        System.out.println(jsonObject);
-//        try{
-//            JSONArray dataArray = jsonObject.getJSONArray("aaa");
-//            System.out.println(dataArray.toString());
-//        }catch(JSONException e){
-//            System.out.println(e.getMessage());
-//        }
+        JSArray<Short> front = crf.produce(35);
+        JSArray<Short> behind = crf.produce(12);
+
+        System.out.println(behind.getSize());
 }
 }
 
