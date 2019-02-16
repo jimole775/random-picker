@@ -12,6 +12,7 @@ import org.json.JSONException;
 
 /**
  * Created by Administrator on 2019/1/22.
+ * 创建随机数组，以10000的长度为基准，用以实现概率取数
  */
 public class CreateRateFoundation {
 
@@ -32,24 +33,24 @@ public class CreateRateFoundation {
         return (int)Math.ceil(Math.random()*bit);
     }
 
-    private JSArray<Short> foundationStorage;
+    private JSArray<Integer> foundationStorage;
     private String filePath_front = "src/main/java/com/lottery/db/base/front_sum.json";
     private String filePath_behind = "src/main/java/com/lottery/db/base/behind_sum.json";
-    public JSArray<Short> produce(int baseType){
+    public JSArray<Integer> produce(int baseType){
         int i = 10000;
-        foundationStorage = new JSArray(Short.class,10000);
+        foundationStorage = new JSArray(Integer.class,10000);
         String filePath = baseType == 35 ? filePath_front : filePath_behind;
         JSONArray json_info = getJson(filePath);
         JSArray timesRecord = new JSArray(Integer.class,35);
-        timesRecord.fill(0);
         try{
 
             while(i-- > 0){
-                short suffixNum = (short)suffixPick(baseType);
+                int suffixNum = (int)suffixPick(baseType);
                 JSONObject curItem = new JSONObject(json_info.get(suffixNum - 1).toString());
                 double curNumRate = (double) curItem.get("rate"); // 几率
                 int curNumLimit = (int)Math.round(curNumRate * 10000); // 把原几率换成当前数组的出现频率
-                int curItemRollTimes = (int) timesRecord.get(suffixNum - 1);
+                Object _curItemRollTimes = timesRecord.get(suffixNum - 1);
+                int curItemRollTimes = _curItemRollTimes == null ? 0 : (int)_curItemRollTimes;
                 int position = suffixPick(10000) - 1;
                 if(curItemRollTimes <= curNumLimit){
                     if(foundationStorage.get(position) == null){

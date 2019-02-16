@@ -37,9 +37,18 @@ public class FileWriter {
         return this;
     }
 
+    public void end(){
+        try {
+            fop.close();
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void end(Callback endCb){
         try {
             fop.close();
+            endCb.entries((byte)-1);
         } catch (IOException e){
             System.out.println(e.getMessage());
         }
@@ -52,16 +61,14 @@ public class FileWriter {
     }
 
     private String compatibleWrapString(){
-        byte[] result;
+        byte[] result = new byte[2];
         if(isWindows()) {
-            result = new byte[1];
-            result[0] = 0x0A;
+            result[0] = (byte)0x0A;
         }
         else {
-            result = new byte[2];
-            result[0] = 0x0D;
-            result[1] = 0x0A;
+            result[0] = (byte)0x0D;
+            result[1] = (byte)0x0A;
         }
-        return result.toString();
+        return new String(result);
     }
 }

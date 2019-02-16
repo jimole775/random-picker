@@ -34,9 +34,9 @@ public class JSArray<T>{
     private void extendBehindCapacity(){
         int extendSize = arrInstance.length>>1;
         extendSize = extendSize > 0 ? extendSize : 1;
-        T[] temp = createNewArr(arrInstance.length + extendSize);
+        T[] temp = createNewArr(insCapacity + extendSize);
 
-        System.arraycopy(arrInstance,0,temp,0,arrInstance.length);
+        System.arraycopy(arrInstance,0,temp,0,insCapacity);
 
         arrInstance = temp;
 
@@ -52,17 +52,18 @@ public class JSArray<T>{
     public JSArray(Class type,int size){
         curInsType = type;
         arrInstance = createNewArr(size);
-        insCapacity = size;
-        frontEmpty = size >> 1;
-        behindEmpty = size - frontEmpty;
+        insCount = insCapacity = size;
+        frontEmpty = 0;
+        behindEmpty = 0;
     }
 
     public JSArray(Class type){
         curInsType = type;
-        arrInstance = createNewArr(10);
-        insCapacity = 10;
-        frontEmpty = 5;
-        behindEmpty = 5;
+        arrInstance = createNewArr(0);
+        insCapacity = 0;
+        frontEmpty = 0;
+        behindEmpty = 0;
+        insCount = 0;
     }
 
     public JSArray(Object[] simple){
@@ -184,73 +185,90 @@ public class JSArray<T>{
         return delItem;
     }
 
-    public void sort(){
-        arrInstance = quickSort1(arrInstance);
-        insCount = insCapacity = arrInstance.length;
+    private T[] splice(T[] arr,int delStartIndex,int count){
+        T[] delItem = slice(delStartIndex,count);
+        T[] temp = createNewArr(arr.length - 1);
+        arr = clearArrayEmpty(arr);
+        // 以delStartIndex为中心，把原数组切为两段，最后再拼接起来
+        System.arraycopy(arr,0,temp,0,delStartIndex);
+        System.arraycopy(arr,delStartIndex + count,temp,delStartIndex,arr.length - delStartIndex - count);
+        arr = temp;
+        return delItem;
     }
 
-//    private JSArray quickSort(JSArray arr){
-//        if(arr.getSize() <= 1) return arr;
-//        T[] midItem = arr.splice((int)Math.ceil(arr.getSize()/2),1);
-//        JSArray leftPart = new JSArray(Integer.class);
-//        JSArray rightPart = new JSArray(Integer.class);
-//        for(int i = 0; i<arr.getSize();i++){
-//            Object curItem = arr.get(i);
-//            if(curItem !=null && (Integer)curItem <= (Integer)midItem.get(0)){
-//                leftPart.push(curItem);
-//            }else{
-//                rightPart.push(curItem);
-//            }
-//        }
-//        return quickSort(leftPart).concat(midItem).concat(quickSort(rightPart));
-//    }
+    public JSArray sort(){
+        clearEmpty();
+        arrInstance = quickSort(arrInstance,0,insCount - 1);
+        return this;
+    }
 
-    private T[] quickSort1(T[] arrIns){
-        arrIns = clearArrayEmpty(arrIns);
-        if(arrIns.length <= 1) return arrIns;
-        T[] midItem = splice((int)Math.ceil(arrIns.length/2) - 1,1);
-        T[] leftPart = createNewArr(arrIns.length);
-        T[] rightPart = createNewArr(arrIns.length);
-        int leftGrowUp = 0;
-        int rightGrowUp = 0;
-        for(int i = 0; i<arrIns.length;i++){
-            Object curItem = arrIns[i];
-            if(curItem !=null && (Integer)curItem <= (Integer)midItem[0]){
-                leftPart[leftGrowUp] = (T)curItem;
-                leftGrowUp ++;
-            }else{
-                rightPart[rightGrowUp] = (T)curItem;
-                rightGrowUp ++;
+    private T[] quickSort(T[] arrIns,int left,int right){
+        if(left > right){
+            return arrIns;
+        }
+        int partitionIndex = partition(arrIns, left, right);
+        quickSort(arrIns,0,partitionIndex - 1);
+        quickSort(arrIns,partitionIndex + 1,right);
+
+        return arrIns;
+    }
+
+    private int partition(T[] arr, int left, int right){
+        T partitionItem = arr[left];
+        while(left < right){
+
+            while(right > left && (Integer)arr[right] >= (Integer)partitionItem){
+                right --;
+            }
+            arr[left] = arr[right];
+            while(left < right && (Integer)arr[left] <= (Integer)partitionItem){
+                left ++;
+            }
+            arr[right] = arr[left];
+
+        }
+        arr[right] = partitionItem;
+
+        return right;
+    }
+    private int popSort(T[] arr, int left, int right){
+        T partitionItem = arr[left];
+        while(left < right){
+            T temp = partitionItem;
+            if((Integer)arr[right] <= (Integer)partitionItem){
+                temp = arr[left];
+                arr[left] = arr[right];
+                arr[right] = temp;
+            }
+            right --;
+            left ++;
+            if((Integer)arr[left] >= (Integer)partitionItem){
+                temp = arr[right];
+                arr[right] = arr[left];
+                arr[left] = temp;
             }
         }
 
-        return merge(quickSort1(leftPart),midItem,quickSort1(rightPart));
+        return right;
     }
 
-    private void quickSort2(T[] arrIns,int left,int right){
+    private void insertSort(){
 
-        T fiduciaryItem = arrIns[left];
-        for(int i = 0; i<arrIns.length;i++){
-//            Object curItem = arrIns[i];
-//            if(curItem !=null && (Integer)curItem <= (Integer)midItem[0]){
-//                leftPart[leftGrowUp] = (T)curItem;
-//                leftGrowUp ++;
-//            }else{
-//                rightPart[rightGrowUp] = (T)curItem;
-//                rightGrowUp ++;
-//            }
+    }
+
+    private T[] merge(T[] ...arr){
+        int argsLen = arr.length;
+        int finalCapacity = 0;
+        for(int i = 0; i<argsLen;i++){
+            finalCapacity += arr[i].length;
+        }
+        T[] result = createNewArr(finalCapacity);
+        int capacityStep = 0;
+        for (T[] _arr:arr) {
+            System.arraycopy(_arr,0,result,capacityStep,_arr.length);
+            capacityStep += _arr.length;
         }
 
-//        return merge(quickSort1(leftPart),midItem,quickSort1(rightPart));
-    }
-
-    private T[] merge(T[] arr1,T[] arr2,T[] arr3){
-        int finalCapacity = arr1.length + arr2.length + arr3.length;
-        T[] result = createNewArr(finalCapacity);
-
-        System.arraycopy(arr1,0,result,0,arr1.length);
-        System.arraycopy(arr2,0,result,arr1.length,arr2.length);
-        System.arraycopy(arr3,0,result,arr1.length + arr2.length,arr3.length);
         return result;
     }
 
@@ -268,7 +286,7 @@ public class JSArray<T>{
         return new JSArray(arrInstance);
     }
 
-    public void concat(T[] otherArr){
+    public T[] concat(T[] otherArr){
         otherArr = clearArrayEmpty(otherArr);
         int extendSize = otherArr.length;
         for(int i = 0;i<extendSize;i++){
@@ -276,6 +294,7 @@ public class JSArray<T>{
                 push(otherArr[i]);
             }
         }
+        return arrInstance;
     }
 
     public void forEach(JSArrayCallback cb){
@@ -303,7 +322,8 @@ public class JSArray<T>{
     }
 
     public T get(int index){
-        return arrInstance[frontEmpty + index];
+        int finalIndex = frontEmpty + index;
+        return arrInstance[finalIndex];
     }
 
     public void set(int index,T target){
@@ -311,12 +331,15 @@ public class JSArray<T>{
             extendBehindCapacity();
         }
 
-        if(get(frontEmpty + index) == null){
+        if(index > insCount){
+            behindEmpty --;
+        }
+
+        if(frontEmpty + index > insCount){
             insCount ++;
         }
 
         arrInstance[frontEmpty + index] = target;
-
     }
 
     public T[] getDataSet(){
@@ -342,11 +365,31 @@ public class JSArray<T>{
         return join("");
     }
 
-    public void fill(T simple){
-        for(int i = frontEmpty;i < insCapacity - behindEmpty;i ++){
+    public void supplement(T simple){
+        for(int i = 0;i < insCapacity;i ++){
+            if(arrInstance[i] == null){
+
+                insCount++;
+                arrInstance[i] = simple;
+
+            }
+        }
+
+        frontEmpty = 0;
+        behindEmpty = 0;
+    }
+    public void fullFill(T simple){
+        for(int i = 0;i < insCapacity;i ++){
             arrInstance[i] = simple;
             insCount++;
         }
+        frontEmpty = 0;
+        behindEmpty = 0;
+    }
+
+    public void reset(){
+        arrInstance = createNewArr(0);
+        insCount = insCapacity = frontEmpty = behindEmpty = 0;
     }
 
     public String join(String markSign){
@@ -354,7 +397,7 @@ public class JSArray<T>{
         for(int i = frontEmpty;i < insCapacity - behindEmpty;i ++){
             if(arrInstance[i] != null)spillInOne += (arrInstance[i].toString() + markSign);
         }
-        if(!markSign.equals("")){
+        if(!markSign.equals("") && !spillInOne.equals("")){
             spillInOne = spillInOne.substring(0,spillInOne.length() - 1);
         }
         return spillInOne;
@@ -380,7 +423,7 @@ public class JSArray<T>{
 
         arr.sort();
         JSArray arr2 = arr.clone();
-        arr.set(0,0);
+//        arr.set(0,0);
 
         /*arr.forEach(new JSArrayCallback(){
             @Override

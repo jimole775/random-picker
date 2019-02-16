@@ -7,30 +7,40 @@ import com.lottery.utils.JSArray;
  */
 public class Roll {
     private CreateRateFoundation crf = new CreateRateFoundation();
-    JSArray<Short> front_foundation = crf.produce(35);
-    JSArray<Short> behind_foundation = crf.produce(12);
-    SeriesRecords sr = new SeriesRecords();
-    public JSArray<Short> productATerm(){
-        JSArray<Short> aTerm = new JSArray<Short>(Short.class,7);
+    private JSArray<Integer> front_foundation = crf.produce(35);
+    private JSArray<Integer> behind_foundation = crf.produce(12);
+    public int rollTimes = 0;
+    private VerifyInvalidTerm verifier = new VerifyInvalidTerm();
+    public Roll(){
 
-        picksNum(5,aTerm);
-        picksNum(2,aTerm);
-
-        return aTerm;
     }
 
-    private void picksNum(int times,JSArray aTerm){
-        int loop = times;
-        JSArray<Short> foundation = loop == 5 ? front_foundation : behind_foundation;
-        while(loop-- > 0){
-            short randomOne = foundation.get(suffixPick(10000));
+    public JSArray productATerm(){
+        JSArray aTerm_front = new JSArray<Integer>(Integer.class,5);
+        JSArray aTerm_behind = new JSArray<Integer>(Integer.class,2);
+        picksNum(aTerm_front,5);
+        picksNum(aTerm_behind,2);
+        JSArray aTerm = aTerm_front.concat(aTerm_behind);
+        rollTimes++;
+        if(verifier.isInValid(aTerm)){
+            return productATerm();
+        }
+        System.out.println("aTerm:" + aTerm.join("-"));
+        return aTerm.sort();
+    }
+
+    private void picksNum(JSArray aTerm,int times){
+        JSArray<Integer> foundation = times == 5 ? front_foundation : behind_foundation;
+        while(times-- > 0){
+            Integer randomOne = foundation.get(suffixPick(10000) - 1);
             if(aTerm.include(randomOne)){
-                loop ++;
+                times ++;
             }
             else{
-                aTerm.push(randomOne);
+                aTerm.set(times,randomOne);
             }
         }
+        aTerm.sort();
     }
 
     private int suffixPick(int bit){

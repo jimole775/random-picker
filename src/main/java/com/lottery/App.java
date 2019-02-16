@@ -4,6 +4,9 @@ package com.lottery;
  * Hello world!
  *
  */
+import com.lottery.product.RewardRecords;
+import com.lottery.product.Roll;
+import com.lottery.product.SeriesRecords;
 import com.lottery.utils.FileReader;
 import com.lottery.utils.JSArray;
 import com.lottery.product.CreateRateFoundation;
@@ -18,12 +21,19 @@ public class App
         readFile();
     }
     private static void readFile(){
-        CreateRateFoundation crf = new CreateRateFoundation();
 
-        JSArray<Short> front = crf.produce(35);
-        JSArray<Short> behind = crf.produce(12);
+        Integer[] awardTarget = {5,11,16,28,35,6,9};
+        RewardRecords rr = new RewardRecords(awardTarget);
+        SeriesRecords sr = new SeriesRecords();
+        Roll r = new Roll();
+        int loopTimes = 100000000;
 
-        System.out.println(behind.getSize());
+        while(loopTimes -- > 0){
+            JSArray aTerm = r.productATerm();
+            rr.record((Integer[]) aTerm.getDataSet());
+            sr.record((Integer[]) aTerm.getDataSet());
+        }
+
 }
 }
 

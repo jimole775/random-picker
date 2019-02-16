@@ -8,6 +8,7 @@ import com.lottery.utils.JSArray;
 
 /**
  * Created by Andy-Super on 2019/2/13.
+ * 记录连号次数
  */
 public class SeriesRecords {
 
@@ -15,25 +16,27 @@ public class SeriesRecords {
     private String seriesRecordFilePath = "src/main/java/com/lottery/db/pro/seriesRecord.log";
     private FileWriter fw = new FileWriter(seriesRecordFilePath);
     public SeriesRecords(){
-        String title = "pile-1次，代表roll-100000次";
+        String title = "1个pile代表roll了100000次";
         fw.writeLine(title);
     }
 
-
-    private void analyze(JSArray aTerm){
-        aTerm.sort();
-        int arrLen = 7;
-//        while(arrLen -- > 0){
-//            Object curItem = aTerm.get(arrLen);
-//            Object prevItem = aTerm.get(arrLen - 1);
-//            if((Integer)curItem - (Integer) prevItem == 1){
-//                seriesLen ++;
-//            }
-//        }
-
+    public void record(Integer[] aTerm){
+        int loopTimes = 0;
+        JSArray series = new JSArray(Integer.class);
+        while(loopTimes < 6){
+            Integer curItem = aTerm[loopTimes];
+            Integer nextItem = aTerm[loopTimes + 1];
+            if(nextItem - curItem == 1){
+                series.push(curItem);
+            }else{
+                storage(series.join("-"));
+                series.reset();
+            }
+            loopTimes ++;
+        }
     }
 
-    public Map record(String series){
+    private Map storage(String series){
         Integer curSeriesTimes = map.get(series + "_roll");
         Integer curSeriesTimesPile = map.get(series + "_pile");
         if(curSeriesTimes == null){
@@ -57,6 +60,7 @@ public class SeriesRecords {
     }
 
     public void end(){
-//        fw.writeLine(bufferString);
+        fw.writeLine("=========>结束文件<=========");
+        fw.end();
     }
 }
