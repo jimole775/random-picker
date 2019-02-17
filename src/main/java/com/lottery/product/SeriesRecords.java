@@ -55,11 +55,14 @@ public class SeriesRecords {
         return map;
     }
 
-    private void write(String bufferString){
-
+    private void write(){
+        for (String key:map.keySet()) {
+            fw.writeLine(key + ":" + map.get(key));
+        }
     }
 
     public void end(){
+        write();
         fw.writeLine("=========>结束文件<=========");
         fw.end();
     }

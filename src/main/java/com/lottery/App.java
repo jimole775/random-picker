@@ -22,17 +22,18 @@ public class App
     }
     private static void readFile(){
 
-        Integer[] awardTarget = {5,11,16,28,35,6,9};
-        RewardRecords rr = new RewardRecords(awardTarget);
+        RewardRecords rr = new RewardRecords();
         SeriesRecords sr = new SeriesRecords();
         Roll r = new Roll();
-        int loopTimes = 100000000;
+        int loopTimes = 10000;
 
         while(loopTimes -- > 0){
             JSArray aTerm = r.productATerm();
             rr.record((Integer[]) aTerm.getDataSet());
             sr.record((Integer[]) aTerm.getDataSet());
         }
+        rr.end();
+        sr.end();
 
 }
 }

@@ -61,11 +61,13 @@ public class FileWriter {
     }
 
     private String compatibleWrapString(){
-        byte[] result = new byte[2];
+        byte[] result;
         if(isWindows()) {
+            result = new byte[1];
             result[0] = (byte)0x0A;
         }
         else {
+            result = new byte[2];
             result[0] = (byte)0x0D;
             result[1] = (byte)0x0A;
         }

@@ -16,31 +16,29 @@ public class Roll {
     }
 
     public JSArray productATerm(){
-        JSArray aTerm_front = new JSArray<Integer>(Integer.class,5);
-        JSArray aTerm_behind = new JSArray<Integer>(Integer.class,2);
-        picksNum(aTerm_front,5);
-        picksNum(aTerm_behind,2);
+        JSArray aTerm_front = picksNum(5);
+        JSArray aTerm_behind = picksNum(2);
         JSArray aTerm = aTerm_front.concat(aTerm_behind);
         rollTimes++;
         if(verifier.isInValid(aTerm)){
             return productATerm();
         }
-        System.out.println("aTerm:" + aTerm.join("-"));
-        return aTerm.sort();
+        return aTerm;
     }
 
-    private void picksNum(JSArray aTerm,int times){
+    private JSArray picksNum(int times){
+        JSArray tempTerm = new JSArray<Integer>(Integer.class,times);
         JSArray<Integer> foundation = times == 5 ? front_foundation : behind_foundation;
         while(times-- > 0){
             Integer randomOne = foundation.get(suffixPick(10000) - 1);
-            if(aTerm.include(randomOne)){
+            if(tempTerm.include(randomOne)){
                 times ++;
             }
             else{
-                aTerm.set(times,randomOne);
+                tempTerm.set(times,randomOne);
             }
         }
-        aTerm.sort();
+        return tempTerm.sort();
     }
 
     private int suffixPick(int bit){
