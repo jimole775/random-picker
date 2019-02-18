@@ -12,58 +12,63 @@ import com.lottery.utils.JSArray;
  */
 public class SeriesRecords {
 
-    private Map<String,Integer> map = new HashMap<String, Integer>();
-    private String seriesRecordFilePath = "src/main/java/com/lottery/db/pro/seriesRecord.log";
-    private FileWriter fw = new FileWriter(seriesRecordFilePath);
+    private Map<String,Integer> map_front = new HashMap<String, Integer>();
+    private Map<String,Integer> map_behind = new HashMap<String, Integer>();
+    private String seriesRecordFilePath_front = "src/main/java/com/lottery/db/pro/seriesRecord_front.log";
+    private String seriesRecordFilePath_behind = "src/main/java/com/lottery/db/pro/seriesRecord_behind.log";
+
+    private FileWriter fw_front = new FileWriter(seriesRecordFilePath_front);
+    private FileWriter fw_behind = new FileWriter(seriesRecordFilePath_behind);
+
     public SeriesRecords(){
-        String title = "1个pile代表roll了100000次";
-        fw.writeLine(title);
     }
 
-    public void record(Integer[] aTerm){
+    public void record(JSArray aTerm){
+        analyze(map_front,(Integer[])aTerm.slice(0,5));
+        analyze(map_behind,(Integer[])aTerm.slice(5,2));
+    }
+
+    private Map analyze(Map map,Integer[] aTerm){
         int loopTimes = 0;
         JSArray series = new JSArray(Integer.class);
-        while(loopTimes < 6){
-            Integer curItem = aTerm[loopTimes];
-            Integer nextItem = aTerm[loopTimes + 1];
-            if(nextItem - curItem == 1){
-                series.push(curItem);
-            }else{
-                storage(series.join("-"));
-                series.reset();
+        while(loopTimes < aTerm.length - 1){
+            Object curItem = aTerm[loopTimes];
+            Object nextItem = aTerm[loopTimes + 1];
+            if((int)nextItem - (int)curItem == 1){
+                if(!series.include(curItem))series.push(curItem);
+                if(!series.include(nextItem))series.push(nextItem);
             }
+            storage(map,series.join("-"));
+            series.reset();
             loopTimes ++;
         }
+        return map;
     }
 
-    private Map storage(String series){
-        Integer curSeriesTimes = map.get(series + "_roll");
-        Integer curSeriesTimesPile = map.get(series + "_pile");
-        if(curSeriesTimes == null){
-            curSeriesTimes = 0;
-            curSeriesTimesPile = 0;
-        }else{
-            if(curSeriesTimes >= 100000){
+    private Map storage(Map map,String series){
+        if(!series.equals("")){
+            Integer curSeriesTimes = (Integer)map.get(series);
+            if(curSeriesTimes == null){
                 curSeriesTimes = 0;
-                curSeriesTimesPile ++;
             }
+
+            map.put(series,curSeriesTimes + 1);
         }
-
-        map.put(series + "_roll",curSeriesTimes + 1);
-        map.put(series + "_pile",curSeriesTimesPile);
-
         return map;
     }
 
     private void write(){
-        for (String key:map.keySet()) {
-            fw.writeLine(key + ":" + map.get(key));
+        for (String key:map_front.keySet()) {
+            fw_front.writeLine(key + ":" + map_front.get(key));
+        }
+        for (String key:map_behind.keySet()) {
+            fw_behind.writeLine(key + ":" + map_behind.get(key));
         }
     }
 
     public void end(){
         write();
-        fw.writeLine("=========>结束文件<=========");
-        fw.end();
+        fw_front.end();
+        fw_behind.end();
     }
 }

@@ -25,12 +25,12 @@ public class App
         RewardRecords rr = new RewardRecords();
         SeriesRecords sr = new SeriesRecords();
         Roll r = new Roll();
-        int loopTimes = 10000;
+        int loopTimes = 1000000000;
 
         while(loopTimes -- > 0){
             JSArray aTerm = r.productATerm();
-            rr.record((Integer[]) aTerm.getDataSet());
-            sr.record((Integer[]) aTerm.getDataSet());
+            rr.record(aTerm);
+            sr.record(aTerm);
         }
         rr.end();
         sr.end();

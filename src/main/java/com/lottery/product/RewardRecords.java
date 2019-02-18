@@ -45,12 +45,12 @@ public class RewardRecords {
         fw3.end();
         fw4.end();
     }
-    public void record(Integer[] rollTerm){
+    public void record(JSArray rollTerm){
         rollTimes ++;
         matchTarget(rollTerm);
     }
 
-    private int matchTarget(Integer[] rollTerm){
+    private int matchTarget(JSArray rollTerm){
         int frontMatchedTimes = matchFront(rollTerm);
         int behindMatchedTimes = matchBehind(rollTerm);
         if(frontMatchedTimes == 5 && behindMatchedTimes == 2){
@@ -74,21 +74,21 @@ public class RewardRecords {
         return 0;
     }
 
-    private int matchFront(Integer[] rollTerm){
+    private int matchFront(JSArray rollTerm){
         int matchTimes = 0;
         for(int i = 0; i< 5;i++){
-            if(rollTerm[i] == (int)awardTarget.get(i)){
+            if((int)rollTerm.get(i) == (int)awardTarget.get(i)){
                 matchTimes ++;
             }
         }
         return matchTimes;
     }
 
-    private int matchBehind(Integer[] rollTerm){
+    private int matchBehind(JSArray rollTerm){
         int matchTimes = 0;
         for(int i = 4; i < 6;i++){
 
-            if(rollTerm[i] == (int)awardTarget.get(i)){
+            if((int)rollTerm.get(i) == (int)awardTarget.get(i)){
                 matchTimes ++;
             }
 
