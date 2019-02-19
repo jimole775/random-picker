@@ -4,23 +4,37 @@ package com.lottery;
  * Hello world!
  *
  */
+import com.lottery.experiment.RollFromAvg;
 import com.lottery.product.RewardRecords;
 import com.lottery.product.Roll;
 import com.lottery.product.SeriesRecords;
-import com.lottery.utils.FileReader;
 import com.lottery.utils.JSArray;
-import com.lottery.product.CreateRateFoundation;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class App
 {
     public static void main( String[] args )
     {
-        readFile();
+
+//        pro();
+        Integer[] simp = {5,11,16,28,35,6,9};
+        RollFromAvg mfa = new RollFromAvg(simp);
+        mfa.run();
+        mfa.run();
+        mfa.run();
+        mfa.run();
+        mfa.run();
+        mfa.run();
+        mfa.run();
+        mfa.run();
+        mfa.run();
+        mfa.run();
+        mfa.run();
+        mfa.run();
+        mfa.run();
     }
-    private static void readFile(){
+
+
+    private static void pro(){
 
         RewardRecords rr = new RewardRecords();
         SeriesRecords sr = new SeriesRecords();

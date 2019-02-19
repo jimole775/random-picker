@@ -54,21 +54,17 @@ public class RewardRecords {
         int frontMatchedTimes = matchFront(rollTerm);
         int behindMatchedTimes = matchBehind(rollTerm);
         if(frontMatchedTimes == 5 && behindMatchedTimes == 2){
-//            award_No1();
             write(no1,fw1);
         }
         if(frontMatchedTimes == 5 && behindMatchedTimes == 1){
-//            award_No2();
             write(no2,fw2);
         }
         if(frontMatchedTimes == 5 && behindMatchedTimes == 0
             || frontMatchedTimes == 4 && behindMatchedTimes == 2){
-//            award_No3();
             write(no3,fw3);
         }
         if(frontMatchedTimes == 4 && behindMatchedTimes == 1
             || frontMatchedTimes == 3 && behindMatchedTimes == 2){
-//            award_No4();
             write(no4,fw4);
         }
         return 0;
