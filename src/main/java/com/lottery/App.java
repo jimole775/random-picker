@@ -19,18 +19,6 @@ public class App
         Integer[] simp = {5,11,16,28,35,6,9};
         RollFromAvg mfa = new RollFromAvg(simp);
         mfa.run();
-        mfa.run();
-        mfa.run();
-        mfa.run();
-        mfa.run();
-        mfa.run();
-        mfa.run();
-        mfa.run();
-        mfa.run();
-        mfa.run();
-        mfa.run();
-        mfa.run();
-        mfa.run();
     }
 
 

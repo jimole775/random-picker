@@ -20,10 +20,10 @@ public class RollFromAvg {
 
         JSArray terms = new JSArray(String.class);
         Roll r = new Roll();
-        for(int i = 0;i<=3000000;i++){
+        for(int i = 0;i<=1000000;i++){
             JSArray aTerm = r.productATerm();
 
-            if(i>=2644100 && i<=2644120){
+            if(i>=111000 && i<=222200){
                 terms.push(aTerm.join("-"));
             }
 
