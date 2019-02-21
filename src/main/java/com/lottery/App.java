@@ -15,8 +15,8 @@ public class App
     public static void main( String[] args )
     {
 
-//        pro();
-        Integer[] simp = {5,11,16,28,35,6,9};
+//        pro();01,23,24,28,33,#04,#05
+        Integer[] simp = {1,23,24,28,33,4,5};
         RollFromAvg mfa = new RollFromAvg(simp);
         mfa.run();
     }
