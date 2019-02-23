@@ -46,10 +46,11 @@ public class Roll {
 
     private JSArray picksNum(JSArray tempTerm,int times){
         JSArray<Integer> foundation = times == 2 ? behind_foundation : front_foundation;
+        boolean isFrontArea = times != 2;   //如果是前区号码，就匹配黑名单
         JSArray<Integer> useBlackList = new JSArray<Integer>(blackList);
         while(times-- > 0){
             Integer randomOne = foundation.get(suffixPick(10000) - 1);
-            if(tempTerm.include(randomOne) || useBlackList.include(randomOne)){
+            if(tempTerm.include(randomOne) || (isFrontArea && useBlackList.include(randomOne))){
                 times ++;
             }
             else{

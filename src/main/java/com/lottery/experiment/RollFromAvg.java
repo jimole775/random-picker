@@ -13,28 +13,26 @@ import com.lottery.utils.JSArrayCallback;
 public class RollFromAvg {
 
     private Integer[] simp;
-
+    private Integer awardLevel = 0;
     public RollFromAvg(Integer[] _simp){
         simp = _simp;
     }
 
-    public void run(){
-
-        String filePath = "src/main/java/com/lottery/db/pro/experiment/";
+    public Integer run(){
+        String filePath = "src/main/java/com/lottery/db/experiment/";
         FileWriter fw = new FileWriter(filePath + "pro.log");
         JSArray terms = new JSArray(String.class);
 
         Roll r = new Roll();
-        for(int i = 0;i<=1000000;i++){
+        for(int i = 0;i<=600000;i++){
             JSArray aTerm = r.productATerm();
 
-//            if(i>=53310 && i<= 53327 || i>=222214 && i<=222260){
-//                terms.push(aTerm.join("-"));
-//
-//                fw.writeLine(aTerm.join(","));
-//            }
+            if(i>=53310 && i<= 53320 || i>=222210 && i<=222260 || i>=523900 && i<=523940){
+                terms.push(aTerm.join("-"));
 
-            terms.push(aTerm.join("-"));
+                fw.writeLine(aTerm.join("-"));
+            }
+
         }
         fw.end();
 
@@ -48,11 +46,14 @@ public class RollFromAvg {
                 for (String str:targetStr) {
                     targetArr.push(Integer.valueOf(str));
                 }
-                if(al.match(targetArr) > 0){
-                    System.out.println("中奖等级：" + al.match(targetArr));
+                if(al.match(targetArr) > 0 && al.match(targetArr) <= 3){
+                    awardLevel = al.match(targetArr);
+//                    System.out.println("中奖等级：" + awardLevel);
+//                    System.out.println("中奖号码：" + targetArr.join("-"));
                 }
             }
         });
 
+        return awardLevel;
     }
 }

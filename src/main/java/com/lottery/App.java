@@ -18,7 +18,15 @@ public class App
 //        pro();01,23,24,28,33,#04,#05
         Integer[] simp = {1,23,24,28,33,4,5};
         RollFromAvg mfa = new RollFromAvg(simp);
-        mfa.run();
+        Integer level = mfa.run();
+        int runTimes = 0;
+        while(level == 0 || level > 3){
+            runTimes ++;
+            level = mfa.run();
+        }
+
+        System.out.println("购买了" + runTimes + "期，每期100注，终于中得" + level + "等奖");
+        System.out.println("消耗资金" + runTimes*100*2 + "元");
     }
 
 

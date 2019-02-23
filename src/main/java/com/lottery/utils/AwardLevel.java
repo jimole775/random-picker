@@ -14,21 +14,23 @@ public class AwardLevel {
         int behindMatchedTimes = matchBehind(rollTerm);
         if(frontMatchedTimes == 5 && behindMatchedTimes == 2){
             level = 1;
-        }
-        if(frontMatchedTimes == 5 && behindMatchedTimes == 1){
+        }else if(frontMatchedTimes == 5 && behindMatchedTimes == 1){
             level = 2;
-        }
-        if(frontMatchedTimes == 5 && behindMatchedTimes == 0
+        }else if(frontMatchedTimes == 5 && behindMatchedTimes == 0
                 || frontMatchedTimes == 4 && behindMatchedTimes == 2){
             level = 3;
-        }
-        if(frontMatchedTimes == 4 && behindMatchedTimes == 1
+        }else if(frontMatchedTimes == 4 && behindMatchedTimes == 1
                 || frontMatchedTimes == 3 && behindMatchedTimes == 2){
             level = 4;
-        }
-        if(frontMatchedTimes == 4 && behindMatchedTimes == 1
-                || frontMatchedTimes == 3 && behindMatchedTimes == 2){
+        }else if(frontMatchedTimes == 4 && behindMatchedTimes == 0
+                || frontMatchedTimes == 3 && behindMatchedTimes == 1
+                || frontMatchedTimes == 2 && behindMatchedTimes == 2 ){
             level = 5;
+        }else if(frontMatchedTimes == 3 && behindMatchedTimes == 0
+                || frontMatchedTimes == 1 && behindMatchedTimes == 2
+                || frontMatchedTimes == 2 && behindMatchedTimes == 1
+                || frontMatchedTimes == 0 && behindMatchedTimes == 2 ){
+            level = 6;
         }
         return level;
     }
