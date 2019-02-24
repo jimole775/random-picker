@@ -8,6 +8,7 @@ import com.lottery.experiment.RollFromAvg;
 import com.lottery.product.RewardRecords;
 import com.lottery.product.Roll;
 import com.lottery.product.SeriesRecords;
+import com.lottery.utils.FileWriter;
 import com.lottery.utils.JSArray;
 
 public class App
@@ -18,17 +19,25 @@ public class App
 //        pro();01,23,24,28,33,#04,#05
         Integer[] simp = {1,23,24,28,33,4,5};
         RollFromAvg mfa = new RollFromAvg(simp);
-        Integer level = mfa.run();
+        FileWriter fw = new FileWriter("src/main/java/com/lottery/db/experiment/awardTimes.log");
         int runTimes = 0;
-        while(level == 0 || level > 3){
+        while(runTimes < 10000){
             runTimes ++;
-            level = mfa.run();
+            Integer level = mfa.run();
+            if(level > 0 && level <=3){
+                record(fw,level,runTimes);
+            }
         }
 
-        System.out.println("购买了" + runTimes + "期，每期100注，终于中得" + level + "等奖");
-        System.out.println("消耗资金" + runTimes*100*2 + "元");
+        fw.end();
     }
 
+    private static void record(FileWriter fw, Integer level, int runTimes){
+        String a = "购买了" + runTimes + "期，每期100注，终于中得" + level + "等奖";
+        fw.writeLine(a);
+        String b = "消耗资金" + runTimes*100*2 + "元";
+        fw.writeLine(b);
+    }
 
     private static void pro(){
 
