@@ -4,9 +4,9 @@ package com.lottery;
  * Hello world!
  *
  */
-import com.lottery.experiment.RollFromAvg;
+import com.lottery.experiment.*;
 import com.lottery.product.RewardRecords;
-import com.lottery.product.Roll;
+import com.lottery.product.Product;
 import com.lottery.product.SeriesRecords;
 import com.lottery.utils.FileWriter;
 import com.lottery.utils.JSArray;
@@ -15,21 +15,24 @@ public class App
 {
     public static void main( String[] args )
     {
-
+    SimulateRollRate srr = new SimulateRollRate();
+    srr.run();
+//        int[] a = new int[2];
+//        System.out.print(a[0]);
 //        pro();01,23,24,28,33,#04,#05
-        Integer[] simp = {1,23,24,28,33,4,5};
-        RollFromAvg mfa = new RollFromAvg(simp);
-        FileWriter fw = new FileWriter("src/main/java/com/lottery/db/experiment/awardTimes.log");
-        int runTimes = 0;
-        while(runTimes < 10000){
-            runTimes ++;
-            Integer level = mfa.run();
-            if(level > 0 && level <=3){
-                record(fw,level,runTimes);
-            }
-        }
-
-        fw.end();
+//        Integer[] simp = {1,23,24,28,33,4,5};
+//        RollFromAvg mfa = new RollFromAvg(simp);
+//        FileWriter fw = new FileWriter("src/main/java/com/lottery/db/experiment/awardTimes.log");
+//        int runTimes = 0;
+//        while(runTimes < 10000){
+//            runTimes ++;
+//            Integer level = mfa.run();
+//            if(level > 0 && level <=3){
+//                record(fw,level,runTimes);
+//            }
+//        }
+//
+//        fw.end();
     }
 
     private static void record(FileWriter fw, Integer level, int runTimes){
@@ -41,17 +44,17 @@ public class App
 
     private static void pro(){
 
-        RewardRecords rr = new RewardRecords();
+        RewardRecords rr;
         SeriesRecords sr = new SeriesRecords();
-        Roll r = new Roll();
+        Product r = new Product();
         int loopTimes = 1000000000;
 
         while(loopTimes -- > 0){
             JSArray aTerm = r.productATerm();
-            rr.record(aTerm);
+//            rr.record(aTerm);
             sr.record(aTerm);
         }
-        rr.end();
+//        rr.end();
         sr.end();
 
 }

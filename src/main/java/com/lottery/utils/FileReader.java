@@ -112,50 +112,6 @@ public class FileReader implements Pipe{
         return fileData;
     }
 
-    /*public byte[] readLine(){
-        int loopIndex = 0;
-        int lineLength = 10;
-        byte[] aline = new byte[lineLength];
-        boolean keepGoOn = true;
-        while(keepGoOn){
-            byte data = readByte();
-
-            // 如果遇到换行符或者结果是-1，就结束循环
-            if(isWindows() && data == 0x0A // 区别各系统之间的换行符
-               || !isWindows() && (data == 0x0D || data == 0x0A)
-               || data == -1){
-                loopIndex = 0;
-                keepGoOn = false;
-                continue;
-            }
-
-            // 如果超出了原数组尺寸，重新调整长度
-            if(loopIndex == lineLength){
-                lineLength = lineLength*3/2 + 1;
-                aline = Arrays.copyOf(aline,lineLength);
-            }
-
-            // 赋值
-            aline[loopIndex ++] = data;
-        }
-        return aline;
-    }*/
-
-//    public byte[] readFile(){
-//        boolean keepGoOn = true;
-//        byte[] result = new byte[0];
-//        while(keepGoOn){
-//            byte[] aline = readLine();
-//            if(aline.length == 0){
-//                keepGoOn = false;
-//            }
-//            aline = Arrays.copyOf(aline,result.length + aline.length);
-//            result = aline;
-//
-//        }
-//        return result;
-//    }
-
     private byte readByte(){
         int data = -1;
         try {
@@ -168,6 +124,17 @@ public class FileReader implements Pipe{
             System.err.println(e.getMessage());
         }
         return (byte)data;
+    }
+
+    public boolean hasNextLine(){
+        int leftSize = 0;
+        try {
+            leftSize = ins.available();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return leftSize != 0;
     }
 
     private boolean isWindows(){

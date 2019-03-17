@@ -34,8 +34,8 @@ public class CreateRateFoundation {
     }
 
     private JSArray<Integer> foundationStorage;
-    private String filePath_front = "src/main/java/com/lottery/db/base/front_sum.json";
-    private String filePath_behind = "src/main/java/com/lottery/db/base/behind_sum.json";
+    private String filePath_front = "src/main/db/base/front_sum.json";
+    private String filePath_behind = "src/main/db/base/behind_sum.json";
     public JSArray<Integer> produce(int baseType){
         int i = 10000;
         foundationStorage = new JSArray(Integer.class,10000);

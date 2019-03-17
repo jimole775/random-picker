@@ -1,6 +1,6 @@
 package com.lottery.experiment;
 
-import com.lottery.product.Roll;
+import com.lottery.product.Product;
 import com.lottery.utils.AwardLevel;
 import com.lottery.utils.FileWriter;
 import com.lottery.utils.JSArray;
@@ -23,7 +23,7 @@ public class RollFromAvg {
         FileWriter fw = new FileWriter(filePath + "pro.log");
         JSArray terms = new JSArray(String.class);
         awardLevel = 0;
-        Roll r = new Roll();
+        Product r = new Product();
         for(int i = 0;i<=600000;i++){
             JSArray aTerm = r.productATerm();
 
