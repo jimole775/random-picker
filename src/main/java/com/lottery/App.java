@@ -15,12 +15,12 @@ public class App
     public static void main( String[] args )
     {
 
-//        pro();01,23,24,28,33,#04,#05
+//        product();01,23,24,28,33,#04,#05
         Integer[] simp = {1,23,24,28,33,4,5};
         RollFromAvg mfa = new RollFromAvg(simp);
         Integer level = mfa.run();
         int runTimes = 0;
-        while(level == 0 || level > 3){
+        while(level == 0 || level > 1){
             runTimes ++;
             level = mfa.run();
         }

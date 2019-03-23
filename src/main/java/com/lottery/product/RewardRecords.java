@@ -18,7 +18,7 @@ public class RewardRecords {
     private JSArray no2 = new JSArray(Integer.class);
     private JSArray no3 = new JSArray(Integer.class);
     private JSArray no4 = new JSArray(Integer.class);
-    private String filePath = "src/main/java/com/lottery/db/pro/";
+    private String filePath = "src/main/java/com/lottery/db/product/";
     private FileWriter fw1 = new FileWriter( filePath + awardTarget.join("-") + "_no1.log");
     private FileWriter fw2 = new FileWriter(filePath + awardTarget.join("-") + "_no2.log");
     private FileWriter fw3 = new FileWriter(filePath + awardTarget.join("-") + "_no3.log");
