@@ -4,45 +4,59 @@ package com.lottery;
  * Hello world!
  *
  */
-import com.lottery.experiment.RollFromAvg;
+import com.lottery.experiment.*;
 import com.lottery.product.RewardRecords;
-import com.lottery.product.Roll;
+import com.lottery.product.Product;
 import com.lottery.product.SeriesRecords;
+import com.lottery.utils.FileWriter;
 import com.lottery.utils.JSArray;
 
 public class App
 {
     public static void main( String[] args )
     {
-
-//        product();01,23,24,28,33,#04,#05
-        Integer[] simp = {1,23,24,28,33,4,5};
-        RollFromAvg mfa = new RollFromAvg(simp);
-        Integer level = mfa.run();
-        int runTimes = 0;
-        while(level == 0 || level > 1){
-            runTimes ++;
-            level = mfa.run();
-        }
-
-        System.out.println("购买了" + runTimes + "期，每期100注，终于中得" + level + "等奖");
-        System.out.println("消耗资金" + runTimes*100*2 + "元");
+//        Integer[] a = {};
+//        System.out.println(a.getClass());
+    CreateRollRate crr = new CreateRollRate();
+        crr.run();
+//        int[] a = new int[2];
+//        System.out.print(a[0]);
+//        pro();01,23,24,28,33,#04,#05
+//        Integer[] simp = {1,23,24,28,33,4,5};
+//        RollFromAvg mfa = new RollFromAvg(simp);
+//        FileWriter fw = new FileWriter("src/main/java/com/lottery/db/experiment/awardTimes.log");
+//        int runTimes = 0;
+//        while(runTimes < 10000){
+//            runTimes ++;
+//            Integer level = mfa.run();
+//            if(level > 0 && level <=3){
+//                record(fw,level,runTimes);
+//            }
+//        }
+//
+//        fw.end();
     }
 
+    private static void record(FileWriter fw, Integer level, int runTimes){
+        String a = "购买了" + runTimes + "期，每期100注，终于中得" + level + "等奖";
+        fw.writeLine(a);
+        String b = "消耗资金" + runTimes*100*2 + "元";
+        fw.writeLine(b);
+    }
 
     private static void pro(){
 
-        RewardRecords rr = new RewardRecords();
+        RewardRecords rr;
         SeriesRecords sr = new SeriesRecords();
-        Roll r = new Roll();
+        Product r = new Product();
         int loopTimes = 1000000000;
 
         while(loopTimes -- > 0){
             JSArray aTerm = r.productATerm();
-            rr.record(aTerm);
+//            rr.record(aTerm);
             sr.record(aTerm);
         }
-        rr.end();
+//        rr.end();
         sr.end();
 
 }

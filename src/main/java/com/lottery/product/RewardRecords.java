@@ -3,6 +3,7 @@ package com.lottery.product;
 import com.lottery.utils.FileWriter;
 import com.lottery.utils.JSArray;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,42 +12,80 @@ import java.util.Map;
  * 记录中奖次数
  */
 public class RewardRecords {
-    private Integer[] simp = {5,11,16,28,35,6,9};
-    private JSArray awardTarget = new JSArray(simp);
     private int rollTimes = 0;
-    private JSArray no1 = new JSArray(Integer.class);
-    private JSArray no2 = new JSArray(Integer.class);
-    private JSArray no3 = new JSArray(Integer.class);
-    private JSArray no4 = new JSArray(Integer.class);
-    private String filePath = "src/main/java/com/lottery/db/product/";
-    private FileWriter fw1 = new FileWriter( filePath + awardTarget.join("-") + "_no1.log");
-    private FileWriter fw2 = new FileWriter(filePath + awardTarget.join("-") + "_no2.log");
-    private FileWriter fw3 = new FileWriter(filePath + awardTarget.join("-") + "_no3.log");
-    private FileWriter fw4 = new FileWriter(filePath + awardTarget.join("-") + "_no4.log");
 
+    private Integer[] awardTarget;
+    private int[] no1,no2,no3;
+    private FileWriter fw1,fw2,fw3;
+    private String fileName = "";
+    private String filePath = "";
     public RewardRecords(){
     }
-    //14,19,23,27,34,#06,#12
-    private void write(JSArray collection,FileWriter writer){
-        collection.push(rollTimes);
-        if(collection.getSize() > 1){
-            int latest = (int)collection.get(collection.getSize() - 1);
-            int prevLatest = (int)collection.get(collection.getSize() - 2);
-            int distance = latest-prevLatest;
-            writer.writeLine(distance + "");
-        }else{
-            writer.writeLine(rollTimes + "");
-        }
 
+    private void initStorage(){
+        no1 = new int[2];
+        no2 = new int[2];
+        no3 = new int[2];
     }
+
+    private void initWriter(){
+        fw1 = new FileWriter(filePath + fileName + "_no1.log");
+        fw2 = new FileWriter(filePath + fileName + "_no2.log");
+        fw3 = new FileWriter(filePath + fileName + "_no3.log");
+    }
+
+    public void defineAwardTarget(Integer[] designated){
+        awardTarget = designated;
+        initStorage();
+    }
+
+    public void openInputStream(String _filePath){
+        fileName = "";
+        for (Integer num:awardTarget) {
+            fileName += num + ",";
+        }
+        filePath = _filePath;
+        fileName = fileName.substring(0,fileName.length() - 1);
+        initWriter();
+    }
+
+    //14,19,23,27,34,#06,#12
+    private void write(int[] rollTimesStorage,FileWriter writer){
+        if(rollTimesStorage[0] == 0){
+            rollTimesStorage[0] = rollTimes;
+            writer.writeLine("sum:" + rollTimes + ",dvd:" + 0);
+        }else{
+            rollTimesStorage[1] = rollTimes;
+            int prev = rollTimesStorage[0];
+            int latest = rollTimesStorage[1];
+            writer.writeLine("sum:" + rollTimes + ",dvd:" + (latest - prev));
+
+            // 用完后替换
+            rollTimesStorage[0] = rollTimesStorage[1];
+            rollTimesStorage[1] = 0;
+        }
+    }
+
+    private void rollTimeGrowUp(){
+        rollTimes ++;
+//        encodeRollTimes();
+    }
+
     public void end(){
         fw1.end();
         fw2.end();
         fw3.end();
-        fw4.end();
+        reset();
     }
+
+    private void reset(){
+        rollTimes = 0;
+        fileName = "";
+        filePath = "";
+    }
+
     public void record(JSArray rollTerm){
-        rollTimes ++;
+        rollTimeGrowUp();
         matchTarget(rollTerm);
     }
 
@@ -63,17 +102,17 @@ public class RewardRecords {
             || frontMatchedTimes == 4 && behindMatchedTimes == 2){
             write(no3,fw3);
         }
-        if(frontMatchedTimes == 4 && behindMatchedTimes == 1
-            || frontMatchedTimes == 3 && behindMatchedTimes == 2){
-            write(no4,fw4);
-        }
+//        if(frontMatchedTimes == 4 && behindMatchedTimes == 1
+//            || frontMatchedTimes == 3 && behindMatchedTimes == 2){
+//            write(no4,fw4);
+//        }
         return 0;
     }
 
     private int matchFront(JSArray rollTerm){
         int matchTimes = 0;
         for(int i = 0; i< 5;i++){
-            if((int)rollTerm.get(i) == (int)awardTarget.get(i)){
+            if((int)rollTerm.get(i) == (int)awardTarget[i]){
                 matchTimes ++;
             }
         }
@@ -84,7 +123,7 @@ public class RewardRecords {
         int matchTimes = 0;
         for(int i = 4; i < 6;i++){
 
-            if((int)rollTerm.get(i) == (int)awardTarget.get(i)){
+            if((int)rollTerm.get(i) == (int)awardTarget[i]){
                 matchTimes ++;
             }
 

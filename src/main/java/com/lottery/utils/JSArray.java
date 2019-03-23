@@ -71,7 +71,7 @@ public class JSArray<T>{
         frontEmpty = 0;
         behindEmpty = 0;
         insCapacity = insCount = arrInstance.length;
-        curInsType = arrInstance[0].getClass();
+        curInsType = simple.getClass();
     }
 
     private T[] clearArrayEmpty(T[] irregularArr){
