@@ -13,15 +13,20 @@ import java.util.Map;
  * 验证后去是否是前区的映射，如果是就废弃
  */
 public class VerifyInvalidTerm {
-
+    private Integer[] blackList = {};
     public boolean isInValid(Integer[] aTerm){
         boolean result = false;
         if(hasSeriesDistance(aTerm)
                 || hasSameFigure(aTerm)
-                || hasMapping(aTerm)){
+                || hasMapping(aTerm)
+                || hasMatchedBlackList(aTerm)){
             result = true;
         }
         return result;
+    }
+
+    public void definedBlackList(Integer[] _blackList){
+        blackList = _blackList;
     }
 
     //如果超过3个以上的连号，就废弃
@@ -95,9 +100,16 @@ public class VerifyInvalidTerm {
         return frontResult && behindResult;
     }
 
-    public boolean hasMatchedBlackList(){
-
-        return true;
+    public boolean hasMatchedBlackList(Integer[] aTerm){
+        JSArray useBlackList = new JSArray(blackList);
+        boolean result = false;
+        for(int i = 0; i<5;i++){
+            if(useBlackList.include(aTerm[i])){
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 
     public boolean hasDesignatedOne(){

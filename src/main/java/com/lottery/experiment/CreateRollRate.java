@@ -8,6 +8,7 @@ import com.lottery.utils.*;
 public class CreateRollRate {
 
        public void run(){
+//           natureRollRate();
            simulateRollRate();
        }
 
@@ -19,8 +20,8 @@ public class CreateRollRate {
                String aLine = fr.readLine().byteToString();
                Integer[] designatedTerm = analysisATerm(aLine);
                rr.defineAwardTarget(designatedTerm);
-               rr.openInputStream("src/main/db/temp/");
-               int peerTermRollTimes = 1000 * 1000;
+               rr.openInputStream("src/main/db/natureRoll/");
+               int peerTermRollTimes = 100000000;
                while(peerTermRollTimes-- >=0){
                    JSArray aTerm = pdt.productATerm();
                    rr.record(aTerm);
@@ -34,6 +35,7 @@ public class CreateRollRate {
            RewardRecords rr = new RewardRecords();
            VerifyInvalidTerm vit = new VerifyInvalidTerm();
            Integer[] blackList = {4,8,12,15,16,26};
+           vit.definedBlackList(blackList);
            pdt.defineBlackList(blackList);
            Integer[] insertRange = {29,30,31,32,33,34,35};
            pdt.defineInsertRangeList(insertRange);
@@ -44,8 +46,8 @@ public class CreateRollRate {
                    continue;
                }
                rr.defineAwardTarget(designatedTerm);
-               rr.openInputStream("src/main/db/temp1/");
-               int peerTermRollTimes = 1000 * 1000;
+               rr.openInputStream("src/main/db/simulateRoll/");
+               int peerTermRollTimes = 100000000;
                while(peerTermRollTimes-- >=0){
                    JSArray aTerm = pdt.productATerm();
                    if(vit.isInValid((Integer[]) aTerm.getDataSet())){
