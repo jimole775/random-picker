@@ -15,26 +15,8 @@ public class App
 {
     public static void main( String[] args )
     {
-//        Integer[] a = {};
-//        System.out.println(a.getClass());
-    CreateRollRate crr = new CreateRollRate();
+        CreateRollRate crr = new CreateRollRate();
         crr.run();
-//        int[] a = new int[2];
-//        System.out.print(a[0]);
-//        pro();01,23,24,28,33,#04,#05
-//        Integer[] simp = {1,23,24,28,33,4,5};
-//        RollFromAvg mfa = new RollFromAvg(simp);
-//        FileWriter fw = new FileWriter("src/main/java/com/lottery/db/experiment/awardTimes.log");
-//        int runTimes = 0;
-//        while(runTimes < 10000){
-//            runTimes ++;
-//            Integer level = mfa.run();
-//            if(level > 0 && level <=3){
-//                record(fw,level,runTimes);
-//            }
-//        }
-//
-//        fw.end();
     }
 
     private static void record(FileWriter fw, Integer level, int runTimes){

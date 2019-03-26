@@ -2,14 +2,53 @@ package com.lottery.experiment;
 
 import com.lottery.product.*;
 import com.lottery.utils.*;
+import java.util.Date;
 /**
  * Created by Andy-Super on 2019/3/14.
  */
 public class CreateRollRate {
 
        public void run(){
-//           natureRollRate();
-           simulateRollRate();
+           long startTime = new Date().getTime();
+           RollThread rt1 = new RollThread(
+                   new Callback() {
+                       @Override
+                       public void entries(byte[] data) {
+
+                       }
+
+                       @Override
+                       public void entries(byte data) {
+
+                       }
+
+                       @Override
+                       public void entries() {
+                           natureRollRate();
+                       }
+                   }
+           );
+           RollThread rt2 = new RollThread(
+                   new Callback() {
+                       @Override
+                       public void entries(byte[] data) {
+
+                       }
+
+                       @Override
+                       public void entries(byte data) {
+
+                       }
+
+                       @Override
+                       public void entries() {
+                           simulateRollRate();
+                       }
+                   }
+           );
+           rt1.start();
+           rt2.start();
+           System.out.println(new Date().getTime() - startTime);
        }
 
        public void natureRollRate(){
@@ -21,8 +60,9 @@ public class CreateRollRate {
                Integer[] designatedTerm = analysisATerm(aLine);
                rr.defineAwardTarget(designatedTerm);
                rr.openInputStream("src/main/db/natureRoll/");
-               int peerTermRollTimes = 100000000;
-               for(int loop = 0;loop < peerTermRollTimes;loop ++){
+               int peerTermRollTimes = 1000;
+               int loop;
+               for(loop = 0;loop < peerTermRollTimes;loop ++){
                    Integer[] aTerm = pdt.productATerm();
                    rr.record(aTerm,loop);
                }
@@ -36,9 +76,9 @@ public class CreateRollRate {
            VerifyInvalidTerm vit = new VerifyInvalidTerm();
 
            Integer[] blackList = {4,8,12,15,16,26};
-           vit.definedBlackList(blackList);
+//           vit.definedBlackList(blackList);
            Integer[] insertRange = {29,30,31,32,33,34,35};
-           vit.definedFixedItem(insertRange);
+//           vit.definedFixedItem(insertRange);
 
            // 逐行读取
            while(fr.hasNextLine()){
@@ -49,8 +89,9 @@ public class CreateRollRate {
                }
                rr.defineAwardTarget(designatedTerm);
                rr.openInputStream("src/main/db/simulateRoll/");
-               int peerTermRollTimes = 100000000;
-               for(int loop = 0;loop < peerTermRollTimes;loop ++){
+               int peerTermRollTimes = 1000;
+               int loop;
+               for(loop = 0;loop < peerTermRollTimes;loop ++){
                    Integer[] aTerm = pdt.productATerm();
                    if(vit.isInValid(aTerm)){
                        continue;
