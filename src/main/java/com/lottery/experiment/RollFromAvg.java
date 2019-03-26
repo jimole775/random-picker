@@ -20,12 +20,12 @@ public class RollFromAvg {
 
     public Integer run(){
         String filePath = "src/main/java/com/lottery/db/experiment/";
-        FileWriter fw = new FileWriter(filePath + "product.log");
+        FileWriter fw = new FileWriter(filePath,"product.log");
         JSArray terms = new JSArray(String.class);
         awardLevel = 0;
         Product r = new Product();
         for(int i = 0;i<=600000;i++){
-            JSArray aTerm = r.productATerm();
+            JSArray aTerm = new JSArray(r.productATerm());
 
             if(i>=53310 && i<= 53320 || i>=222210 && i<=222260 || i>=523900 && i<=523940){
                 terms.push(aTerm.join("-"));

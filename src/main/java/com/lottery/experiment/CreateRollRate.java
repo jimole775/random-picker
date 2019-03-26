@@ -22,9 +22,9 @@ public class CreateRollRate {
                rr.defineAwardTarget(designatedTerm);
                rr.openInputStream("src/main/db/natureRoll/");
                int peerTermRollTimes = 100000000;
-               while(peerTermRollTimes-- >=0){
-                   JSArray aTerm = pdt.productATerm();
-                   rr.record(aTerm);
+               for(int loop = 0;loop < peerTermRollTimes;loop ++){
+                   Integer[] aTerm = pdt.productATerm();
+                   rr.record(aTerm,loop);
                }
                rr.end();
            }
@@ -34,11 +34,13 @@ public class CreateRollRate {
            Product pdt = new Product();
            RewardRecords rr = new RewardRecords();
            VerifyInvalidTerm vit = new VerifyInvalidTerm();
+
            Integer[] blackList = {4,8,12,15,16,26};
            vit.definedBlackList(blackList);
-           pdt.defineBlackList(blackList);
            Integer[] insertRange = {29,30,31,32,33,34,35};
-           pdt.defineInsertRangeList(insertRange);
+           vit.definedFixedItem(insertRange);
+
+           // 逐行读取
            while(fr.hasNextLine()){
                String aLine = fr.readLine().byteToString();
                Integer[] designatedTerm = analysisATerm(aLine);
@@ -48,12 +50,12 @@ public class CreateRollRate {
                rr.defineAwardTarget(designatedTerm);
                rr.openInputStream("src/main/db/simulateRoll/");
                int peerTermRollTimes = 100000000;
-               while(peerTermRollTimes-- >=0){
-                   JSArray aTerm = pdt.productATerm();
-                   if(vit.isInValid((Integer[]) aTerm.getDataSet())){
+               for(int loop = 0;loop < peerTermRollTimes;loop ++){
+                   Integer[] aTerm = pdt.productATerm();
+                   if(vit.isInValid(aTerm)){
                        continue;
                    }
-                   rr.record(aTerm);
+                   rr.record(aTerm,loop);
                }
                rr.end();
            }

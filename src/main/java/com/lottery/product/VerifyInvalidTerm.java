@@ -14,12 +14,14 @@ import java.util.Map;
  */
 public class VerifyInvalidTerm {
     private Integer[] blackList = {};
+    private Integer[] fixedList = {};
     public boolean isInValid(Integer[] aTerm){
         boolean result = false;
         if(hasSeriesDistance(aTerm)
                 || hasSameFigure(aTerm)
                 || hasMapping(aTerm)
-                || hasMatchedBlackList(aTerm)){
+                || hasMatchedBlackList(aTerm)
+                || !hasDesignatedOne(aTerm)){
             result = true;
         }
         return result;
@@ -28,9 +30,12 @@ public class VerifyInvalidTerm {
     public void definedBlackList(Integer[] _blackList){
         blackList = _blackList;
     }
+    public void definedFixedItem(Integer[] _fixedList){
+        fixedList = _fixedList;
+    }
 
     //如果超过3个以上的连号，就废弃
-    public boolean hasSeriesDistance(Integer[] aTerm){
+    private boolean hasSeriesDistance(Integer[] aTerm){
         boolean result = false;
         int arrLen = 7;
         Map distanceMap = new HashMap<Integer,Integer>();
@@ -56,7 +61,7 @@ public class VerifyInvalidTerm {
     }
 
     // 超过4个同位数，就废弃
-    public boolean hasSameFigure(Integer[] aTerm){
+    private boolean hasSameFigure(Integer[] aTerm){
         int loopTimes = 0;
         boolean result = false;
         int single = 0;
@@ -76,12 +81,11 @@ public class VerifyInvalidTerm {
         if(single >= 4 || ten >= 4 || twenty >= 4){
             result = true;
         }
-
         return result;
     }
 
     // 后面的两个号码是前面的映射，废弃
-    public boolean hasMapping(Integer[] aTerm){
+    private boolean hasMapping(Integer[] aTerm){
 
         boolean frontResult = false;
         boolean behindResult = false;
@@ -100,20 +104,31 @@ public class VerifyInvalidTerm {
         return frontResult && behindResult;
     }
 
-    public boolean hasMatchedBlackList(Integer[] aTerm){
-        JSArray useBlackList = new JSArray(blackList);
+    //判断这组号码是否有元素被标记在黑名单
+    private boolean hasMatchedBlackList(Integer[] aTerm){
         boolean result = false;
         for(int i = 0; i<5;i++){
-            if(useBlackList.include(aTerm[i])){
-                result = true;
-                break;
+            for(int j = 0;j<blackList.length;j++){
+                if(aTerm[i].equals(blackList[j])){
+                    result = true;
+                    break;
+                }
             }
         }
         return result;
     }
 
-    public boolean hasDesignatedOne(){
-
-        return true;
+    //判断这组号码是否拥有限定的号码，现情况只支持限定一个
+    private boolean hasDesignatedOne(Integer[] aTerm){
+        boolean result = false;
+        for(int i = 0; i<5;i++){
+            for(int j = 0;j<fixedList.length;j++){
+                if(aTerm[i].equals(fixedList[j])){
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
     }
 }

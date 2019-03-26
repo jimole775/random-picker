@@ -9,9 +9,12 @@ import java.io.IOException;
  */
 public class FileWriter {
     private FileOutputStream fop;
-    public FileWriter(String path){
-        File direction = new File("");
-        String filePath = direction.getAbsolutePath() + File.separator + path;
+    public FileWriter(String path, String fileName){
+        File direction = new File(path);
+        if(!direction.exists()){
+            direction.mkdir();
+        }
+        String filePath = direction.getAbsolutePath() + File.separator + fileName;
         try {
             fop = new FileOutputStream(filePath);
         } catch (IOException e){
@@ -73,4 +76,5 @@ public class FileWriter {
         }
         return new String(result);
     }
+
 }

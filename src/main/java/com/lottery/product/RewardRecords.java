@@ -12,7 +12,7 @@ import java.util.Map;
  * 记录中奖次数
  */
 public class RewardRecords {
-    private int rollTimes = 0;
+//    private int rollTimes = 0;
 
     private Integer[] awardTarget;
     private int[] no1,no2,no3;
@@ -29,9 +29,9 @@ public class RewardRecords {
     }
 
     private void initWriter(){
-        fw1 = new FileWriter(filePath + fileName + "_no1.log");
-        fw2 = new FileWriter(filePath + fileName + "_no2.log");
-        fw3 = new FileWriter(filePath + fileName + "_no3.log");
+        fw1 = new FileWriter(filePath,fileName + "_no1.log");
+        fw2 = new FileWriter(filePath,fileName + "_no2.log");
+        fw3 = new FileWriter(filePath,fileName + "_no3.log");
     }
 
     public void defineAwardTarget(Integer[] designated){
@@ -50,15 +50,15 @@ public class RewardRecords {
     }
 
     //14,19,23,27,34,#06,#12
-    private void write(int[] rollTimesStorage,FileWriter writer){
+    private void write(int[] rollTimesStorage,FileWriter writer,int curLoop){
         if(rollTimesStorage[0] == 0){
-            rollTimesStorage[0] = rollTimes;
-            writer.writeLine("sum:" + rollTimes + ",dvd:" + 0);
+            rollTimesStorage[0] = curLoop;
+            writer.writeLine("sum:" + curLoop + ",dvd:" + 0);
         }else{
-            rollTimesStorage[1] = rollTimes;
+            rollTimesStorage[1] = curLoop;
             int prev = rollTimesStorage[0];
             int latest = rollTimesStorage[1];
-            writer.writeLine("sum:" + rollTimes + ",dvd:" + (latest - prev));
+            writer.writeLine("sum:" + curLoop + ",dvd:" + (latest - prev));
 
             // 用完后替换
             rollTimesStorage[0] = rollTimesStorage[1];
@@ -67,8 +67,7 @@ public class RewardRecords {
     }
 
     private void rollTimeGrowUp(){
-        rollTimes ++;
-//        encodeRollTimes();
+//        rollTimes ++;
     }
 
     public void end(){
@@ -79,28 +78,28 @@ public class RewardRecords {
     }
 
     private void reset(){
-        rollTimes = 0;
+//        rollTimes = 0;
         fileName = "";
         filePath = "";
     }
 
-    public void record(JSArray rollTerm){
-        rollTimeGrowUp();
-        matchTarget(rollTerm);
+    public void record(Integer[] rollTerm,int curLoop){
+//        rollTimeGrowUp();
+        matchTarget(rollTerm,curLoop);
     }
 
-    private int matchTarget(JSArray rollTerm){
+    private int matchTarget(Integer[] rollTerm,int curLoop){
         int frontMatchedTimes = matchFront(rollTerm);
         int behindMatchedTimes = matchBehind(rollTerm);
         if(frontMatchedTimes == 5 && behindMatchedTimes == 2){
-            write(no1,fw1);
+            write(no1,fw1,curLoop);
         }
         if(frontMatchedTimes == 5 && behindMatchedTimes == 1){
-            write(no2,fw2);
+            write(no2,fw2,curLoop);
         }
         if(frontMatchedTimes == 5 && behindMatchedTimes == 0
             || frontMatchedTimes == 4 && behindMatchedTimes == 2){
-            write(no3,fw3);
+            write(no3,fw3,curLoop);
         }
 //        if(frontMatchedTimes == 4 && behindMatchedTimes == 1
 //            || frontMatchedTimes == 3 && behindMatchedTimes == 2){
@@ -109,33 +108,26 @@ public class RewardRecords {
         return 0;
     }
 
-    private int matchFront(JSArray rollTerm){
+    private int matchFront(Integer[] rollTerm){
         int matchTimes = 0;
         for(int i = 0; i< 5;i++){
-            if((int)rollTerm.get(i) == (int)awardTarget[i]){
+            if(rollTerm[i].equals(awardTarget[i])){
                 matchTimes ++;
             }
         }
         return matchTimes;
     }
 
-    private int matchBehind(JSArray rollTerm){
+    private int matchBehind(Integer[] rollTerm){
         int matchTimes = 0;
         for(int i = 4; i < 6;i++){
 
-            if((int)rollTerm.get(i) == (int)awardTarget[i]){
+            if(rollTerm[i].equals(awardTarget[i])){
                 matchTimes ++;
             }
 
         }
         return matchTimes;
-    }
-
-    public static void main(String[] args){
-        Map<String,Integer> map = new HashMap<String, Integer>();
-        int curSeriesTimes = map.get("asd");
-
-        System.out.println(curSeriesTimes);
     }
 
 }

@@ -46,20 +46,8 @@ public class App
 
     private static void pro(){
 
-        RewardRecords rr;
-        SeriesRecords sr = new SeriesRecords();
-        Product r = new Product();
-        int loopTimes = 1000000000;
 
-        while(loopTimes -- > 0){
-            JSArray aTerm = r.productATerm();
-//            rr.record(aTerm);
-            sr.record(aTerm);
-        }
-//        rr.end();
-        sr.end();
-
-}
+    }
 }
 
 
