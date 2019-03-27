@@ -59,7 +59,7 @@ public class CreateRollRate {
                String aLine = fr.readLine().byteToString();
                Integer[] designatedTerm = analysisATerm(aLine);
                rr.defineAwardTarget(designatedTerm);
-               rr.openInputStream("src/main/db/natureRoll/");
+               rr.openInputStream("src/main/db/temp/natureRoll/");
                int peerTermRollTimes = 1000;
                int loop;
                for(loop = 0;loop < peerTermRollTimes;loop ++){
@@ -88,7 +88,7 @@ public class CreateRollRate {
                    continue;
                }
                rr.defineAwardTarget(designatedTerm);
-               rr.openInputStream("src/main/db/simulateRoll/");
+               rr.openInputStream("src/main/db/temp/simulateRoll/");
                int peerTermRollTimes = 1000;
                int loop;
                for(loop = 0;loop < peerTermRollTimes;loop ++){
