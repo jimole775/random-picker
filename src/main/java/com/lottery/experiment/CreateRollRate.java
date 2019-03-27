@@ -2,13 +2,13 @@ package com.lottery.experiment;
 
 import com.lottery.product.*;
 import com.lottery.utils.*;
-import java.util.Date;
 /**
  * Created by Andy-Super on 2019/3/14.
  */
 public class CreateRollRate {
-
+       private static JSArray allOfFormerAwardTerms;
        public void run(){
+//           allOfFormerAwardTerms = getAllTerm();
            RollThread rt1 = new RollThread(
                new ThreadCallback() {
                    @Override
@@ -25,7 +25,7 @@ public class CreateRollRate {
                    }
                }
            );
-//           rt1.start();
+           rt1.start();
            rt2.start();
        }
 
@@ -33,12 +33,13 @@ public class CreateRollRate {
            FileReader fr = new FileReader("src/main/db/base/amount.txt");
            Product pdt = new Product();
            RewardRecords rr = new RewardRecords();
+
            while(fr.hasNextLine()){
                String aLine = fr.readLine().byteToString();
                Integer[] designatedTerm = analysisATerm(aLine);
                rr.defineAwardTarget(designatedTerm);
                rr.openInputStream("src/main/db/temp/natureRoll/");
-               int peerTermRollTimes = 1000;
+               int peerTermRollTimes = 1000 * 1000 * 1000;
                int loop;
                for(loop = 0;loop < peerTermRollTimes;loop ++){
                    Integer[] aTerm = pdt.productATerm();
@@ -54,7 +55,7 @@ public class CreateRollRate {
            VerifyInvalidTerm vit = new VerifyInvalidTerm();
 
            Integer[] blackList = {4,8,12,15,16,26};
-           vit.definedBlackList(blackList);
+//           vit.definedBlackList(blackList);
            Integer[] insertRange = {29,30,31,32,33,34,35};
 //           vit.definedFixedItem(insertRange);
 
@@ -67,7 +68,7 @@ public class CreateRollRate {
                }
                rr.defineAwardTarget(designatedTerm);
                rr.openInputStream("src/main/db/temp/simulateRoll/");
-               int peerTermRollTimes = 1000;
+               int peerTermRollTimes = 1000 * 1000 * 1000;
                int loop;
                for(loop = 0;loop < peerTermRollTimes;loop ++){
                    Integer[] aTerm = pdt.productATerm();
@@ -77,14 +78,6 @@ public class CreateRollRate {
                    rr.record(aTerm,loop);
                }
                rr.end();
-           }
-       }
-       private void productLogic(RewardRecords rr,Product pdt){
-           int peerTermRollTimes = 1000;
-           int loop;
-           for(loop = 0;loop < peerTermRollTimes;loop ++){
-               Integer[] aTerm = pdt.productATerm();
-               rr.record(aTerm,loop);
            }
        }
 
@@ -98,5 +91,15 @@ public class CreateRollRate {
                designatedTerm[i] = Integer.parseInt(temp[i]);
            }
            return designatedTerm;
+       }
+
+       private JSArray getAllTerm(){
+           FileReader fr = new FileReader("src/main/db/base/amount.txt");
+           JSArray allTerm = new JSArray(Integer.class);
+           while(fr.hasNextLine()) {
+               String aLine = fr.readLine().byteToString();
+               allTerm.push(analysisATerm(aLine));
+           }
+           return allTerm;
        }
 }

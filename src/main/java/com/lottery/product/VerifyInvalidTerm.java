@@ -13,25 +13,14 @@ import java.util.Map;
  * 验证后去是否是前区的映射，如果是就废弃
  */
 public class VerifyInvalidTerm {
-    private Integer[] blackList = {};
-    private Integer[] fixedList = {};
     public boolean isInValid(Integer[] aTerm){
         boolean result = false;
         if(hasSeriesDistance(aTerm)
                 || hasSameFigure(aTerm)
-                || hasMapping(aTerm)
-                || hasMatchedBlackList(aTerm)
-                || !hasDesignatedOne(aTerm)){
+                || hasMapping(aTerm)){
             result = true;
         }
         return result;
-    }
-
-    public void definedBlackList(Integer[] _blackList){
-        blackList = _blackList;
-    }
-    public void definedFixedItem(Integer[] _fixedList){
-        fixedList = _fixedList;
     }
 
     //如果超过3个以上的连号，就废弃
@@ -53,7 +42,7 @@ public class VerifyInvalidTerm {
         }
 
         for (Object val:distanceMap.values()) {
-            if((int)val >= 2){
+            if((int)val >= 3){
                 result = true;
             }
         }
@@ -105,30 +94,32 @@ public class VerifyInvalidTerm {
     }
 
     //判断这组号码是否有元素被标记在黑名单
-    private boolean hasMatchedBlackList(Integer[] aTerm){
+    public boolean hasMatchedBlackList(Integer[] aTerm,Integer[] blackList){
         boolean result = false;
+        int matchTimes = 0;
         for(int i = 0; i<5;i++){
             for(int j = 0;j<blackList.length;j++){
                 if(aTerm[i].equals(blackList[j])){
-                    result = true;
+                    matchTimes++;
                     break;
                 }
             }
         }
+        if(matchTimes > 1) result = true;
         return result;
     }
 
-    //判断这组号码是否拥有限定的号码，现情况只支持限定一个
-    private boolean hasDesignatedOne(Integer[] aTerm){
-        boolean result = false;
+    //判断这组号码是否缺少限定的号码，现情况只支持限定一个
+    public boolean lackDesignatedOne(Integer[] aTerm,Integer[] fixedList){
+        boolean isLack = true;
         for(int i = 0; i<5;i++){
             for(int j = 0;j<fixedList.length;j++){
                 if(aTerm[i].equals(fixedList[j])){
-                    result = true;
+                    isLack = false;
                     break;
                 }
             }
         }
-        return result;
+        return isLack;
     }
 }
