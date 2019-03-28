@@ -1,6 +1,6 @@
 package com.lottery.experiment;
 
-import com.lottery.utils.*;
+import com.lottery.callbacks.*;
 /**
  * Created by Andy-Super on 2019/3/26.
  */

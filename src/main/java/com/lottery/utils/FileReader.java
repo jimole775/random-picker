@@ -9,16 +9,17 @@ import java.io.IOException;
 import java.io.File;
 import java.util.Arrays;
 import java.util.ArrayList;
-import com.lottery.utils.JSArray;
+import com.lottery.callbacks.*;
+import com.lottery.interfaces.*;
 
 public class FileReader implements Pipe{
     private InputStream ins;
     private int insByteIndex = 0;
-    private ArrayList<Callback> pipeCbRegister = new ArrayList<Callback>();
+    private ArrayList<IOCallback> pipeCbRegister = new ArrayList<IOCallback>();
     private String osName = System.getProperties().getProperty("os.name");
-    public FileReader(String path) {
-        File direction = new File("");
-        String completeFilePath = direction.getAbsolutePath() + File.separator + path;
+    public FileReader(String path, String fileName) {
+        File direction = new File(path);
+        String completeFilePath = direction.getAbsolutePath() + fileName;
         try {
             ins = new FileInputStream(completeFilePath);
         } catch (IOException e){
@@ -30,13 +31,13 @@ public class FileReader implements Pipe{
         return readHandle();
     }
 
-    public FileReader read(Callback cb) {
+    public FileReader read(IOCallback cb) {
         byte[] data = readByteHandle();
         cb.entries(data);
         return this;
     }
 
-    public FileReader readLine(Callback cb){
+    public FileReader readLine(IOCallback cb){
         byte[] data = readLineHandle();
         cb.entries(data);
         return this;
@@ -44,14 +45,14 @@ public class FileReader implements Pipe{
 
     // pipe需要存储所有回调，每读取一字节，就循环调用所有回调
     @Override
-    public FileReader pipe(Callback pipeCb){
+    public FileReader pipe(IOCallback pipeCb){
         pipeCbRegister.add(pipeCb);
         return this;
     }
 
     // end算是pipe触发器
     @Override
-    public void end(Callback pipeEndCb){
+    public void end(IOCallback pipeEndCb){
         emit();
         pipeEndCb.entries((byte)-1);
     }
@@ -66,7 +67,7 @@ public class FileReader implements Pipe{
         }
 
         int cbLen = pipeCbRegister.size();
-        for (Callback pipeCb : pipeCbRegister) {
+        for (IOCallback pipeCb : pipeCbRegister) {
 
             pipeCb.entries((byte)data);
 
@@ -154,4 +155,5 @@ public class FileReader implements Pipe{
         }
         return result;
     }
+
 }

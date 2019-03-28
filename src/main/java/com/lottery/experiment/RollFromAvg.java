@@ -4,7 +4,7 @@ import com.lottery.product.Product;
 import com.lottery.utils.AwardLevel;
 import com.lottery.utils.FileWriter;
 import com.lottery.utils.JSArray;
-import com.lottery.utils.JSArrayCallback;
+import com.lottery.callbacks.*;
 
 /**
  * Created by Andy-Super on 2019/2/19.
@@ -21,11 +21,11 @@ public class RollFromAvg {
     public Integer run(){
         String filePath = "src/main/java/com/lottery/db/experiment/";
         FileWriter fw = new FileWriter(filePath,"product.log");
-        JSArray terms = new JSArray(String.class);
+        JSArray<String> terms = new JSArray<String>(String.class);
         awardLevel = 0;
         Product r = new Product();
         for(int i = 0;i<=600000;i++){
-            JSArray aTerm = new JSArray(r.productATerm());
+            JSArray<Integer> aTerm = new JSArray<Integer>(r.productATerm());
 
             if(i>=53310 && i<= 53320 || i>=222210 && i<=222260 || i>=523900 && i<=523940){
                 terms.push(aTerm.join("-"));
@@ -42,7 +42,7 @@ public class RollFromAvg {
             public void entries(Object item, Integer index) {
                 AwardLevel al = new AwardLevel(simp);
                 String[] targetStr = item.toString().split("-");
-                JSArray targetArr = new JSArray(Integer.class);
+                JSArray<Integer> targetArr = new JSArray<Integer>(Integer.class);
                 for (String str:targetStr) {
                     targetArr.push(Integer.valueOf(str));
                 }

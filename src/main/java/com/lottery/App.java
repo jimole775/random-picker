@@ -5,16 +5,19 @@ package com.lottery;
  *
  */
 import com.lottery.experiment.*;
-import com.lottery.product.RewardRecords;
-import com.lottery.product.Product;
-import com.lottery.product.SeriesRecords;
+import com.lottery.product.RecordCoupleAppearedTimes;
+// import com.lottery.product.RewardRecords;
+// import com.lottery.product.Product;
+// import com.lottery.product.SeriesRecords;
 import com.lottery.utils.FileWriter;
-import com.lottery.utils.JSArray;
+// import com.lottery.utils.JSArray;
 
 public class App
 {
     public static void main( String[] args )
     {
+        // RecordCoupleAppearedTimes rcat = new RecordCoupleAppearedTimes();
+        // rcat.record();
         CreateRollRate crr = new CreateRollRate();
         crr.run();
     }

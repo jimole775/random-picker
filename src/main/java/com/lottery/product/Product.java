@@ -11,8 +11,8 @@ public class Product {
     private JSArray<Integer> behind_foundation = crf.produce(12);
 //    private Integer[] blackList = {};
 //    private Integer[] insertRangeList = {};
-    private JSArray aTerm_front = new JSArray<Integer>(Integer.class);
-    private JSArray aTerm_behind = new JSArray<Integer>(Integer.class);
+    private JSArray<Integer> aTerm_front = new JSArray<Integer>(Integer.class);
+    private JSArray<Integer> aTerm_behind = new JSArray<Integer>(Integer.class);
     public Product(){
 
     }
@@ -37,7 +37,7 @@ public class Product {
         aTerm_behind.reset();
         return completeTerm;
     }
-    private JSArray picksNum_custom(JSArray tempTerm,int times){
+    private JSArray<Integer> picksNum_custom(JSArray<Integer> tempTerm,int times){
 //        JSArray<Integer> useBlackList = new JSArray<Integer>(blackList);
 //        while(times-- > 0){
 //            Integer customOne = customPicksOne(insertRangeList);
@@ -51,7 +51,7 @@ public class Product {
         return tempTerm.sort();
     }
 
-    private JSArray picksNum(JSArray tempTerm,int times){
+    private JSArray<Integer> picksNum(JSArray<Integer> tempTerm,int times){
         JSArray<Integer> foundation = times == 2 ? behind_foundation : front_foundation;
 //        JSArray<Integer> useBlackList = new JSArray<Integer>(blackList);
         while(times-- > 0){

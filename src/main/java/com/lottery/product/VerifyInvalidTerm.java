@@ -1,7 +1,8 @@
 package com.lottery.product;
 
+import com.lottery.utils.FileReader;
 import com.lottery.utils.JSArray;
-import com.lottery.utils.JSArrayCallback;
+import com.lottery.callbacks.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,9 @@ import java.util.Map;
  * 验证后去是否是前区的映射，如果是就废弃
  */
 public class VerifyInvalidTerm {
+
+    private JSArray<String> coupleBlackList = null;
+
     public boolean isInValid(Integer[] aTerm){
         boolean result = false;
         if(hasSeriesDistance(aTerm)
@@ -33,11 +37,11 @@ public class VerifyInvalidTerm {
             Object prevItem = aTerm[arrLen - 1];
             int distance = (int)curItem - (int) prevItem;
             if(distanceMap.get(distance) == null){
-                distanceMap.put(distance,1);
+                distanceMap.put(distance, 1);
             }else{
                 int distanceTimes = (int)distanceMap.get(distance);
                 distanceTimes = distanceTimes + 1;
-                distanceMap.put(distance,distanceTimes);
+                distanceMap.put(distance, distanceTimes);
             }
         }
 
@@ -94,7 +98,7 @@ public class VerifyInvalidTerm {
     }
 
     //判断这组号码是否有元素被标记在黑名单
-    public boolean hasMatchedBlackList(Integer[] aTerm,Integer[] blackList){
+    public boolean hasMatchedBlackList(Integer[] aTerm, Integer[] blackList){
         boolean result = false;
         int matchTimes = 0;
         for(int i = 0; i<5;i++){
@@ -121,5 +125,42 @@ public class VerifyInvalidTerm {
             }
         }
         return isLack;
+    }
+
+    // 判断是否以前的号码组合之前出现的频率太低
+    public boolean coupleLess(Integer[] aTerm){
+        if(coupleBlackList == null){
+                coupleBlackList = createCoupleBlackList();
+        }
+        boolean isCoupleLess = false;
+        int blackListSize = coupleBlackList.getSize();
+
+        for(int i = 0; i < 4; i ++){
+            if(isCoupleLess) break;
+            Integer prev = aTerm[i];
+            Integer next = aTerm[i + 1];
+            String couple = prev + "," + next;
+            for(int j=0;j<blackListSize;j++){
+                if(coupleBlackList.get(j).equals(couple)){
+                    isCoupleLess = true;
+                    break;
+                }
+            }
+        }
+
+        return isCoupleLess;
+    }
+
+    private JSArray<String> createCoupleBlackList(){
+        FileReader fw = new FileReader("src/main/db/base","couple_front.log");
+        JSArray<String> blackList = new JSArray<String>(String.class);
+        if(fw.hasNextLine()){
+           String aLine = fw.readLine().byteToString();
+           String[] aLineArr = aLine.split(":");
+           String key = aLineArr[0];
+           Integer val = Integer.parseInt(aLineArr[1]);
+           if(val < 10)blackList.push(key);
+        }
+        return blackList;
     }
 }

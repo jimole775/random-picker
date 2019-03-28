@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.lottery.callbacks.IOCallback;
+
 /**
  * Created by Andy-Super on 2018/12/25.
  */
@@ -48,7 +50,7 @@ public class FileWriter {
         }
     }
 
-    public void end(Callback endCb){
+    public void end(IOCallback endCb){
         try {
             fop.close();
             endCb.entries((byte)-1);

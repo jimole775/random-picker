@@ -16,9 +16,9 @@ import org.json.JSONException;
  */
 public class CreateRateFoundation {
 
-    private JSONArray getJson(String path){
-        FileReader frontReader = new FileReader(path);
-        JSArray jsonData = frontReader.readFile();
+    private JSONArray getJson(String path,String fileName){
+        FileReader frontReader = new FileReader(path,fileName);
+        JSArray<Byte> jsonData = frontReader.readFile();
         JSONArray front_info = new JSONArray();
         try {
             front_info = new JSONArray(jsonData.byteToString());
@@ -34,14 +34,15 @@ public class CreateRateFoundation {
     }
 
     private JSArray<Integer> foundationStorage;
-    private String filePath_front = "src/main/db/base/front_sum.json";
-    private String filePath_behind = "src/main/db/base/behind_sum.json";
+    private String fileName_front = "sum_front.json";
+    private String fileName_behind = "sum_behind.json";
+
     public JSArray<Integer> produce(int baseType){
         int i = 10000;
-        foundationStorage = new JSArray(Integer.class,10000);
-        String filePath = baseType == 35 ? filePath_front : filePath_behind;
-        JSONArray json_info = getJson(filePath);
-        JSArray timesRecord = new JSArray(Integer.class,35);
+        foundationStorage = new JSArray<Integer>(Integer.class,10000);
+        String fileName = baseType == 35 ? fileName_front : fileName_behind;
+        JSONArray json_info = getJson("src/main/db/base", fileName);
+        JSArray<Integer> timesRecord = new JSArray<Integer>(Integer.class,35);
         try{
 
             while(i-- > 0){

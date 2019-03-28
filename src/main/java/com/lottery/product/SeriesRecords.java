@@ -23,18 +23,18 @@ public class SeriesRecords {
     public SeriesRecords(){
     }
 
-    public void record(JSArray aTerm){
+    public void record(JSArray<Integer> aTerm){
         analyze(map_front,(Integer[])aTerm.slice(0,5));
         analyze(map_behind,(Integer[])aTerm.slice(5,2));
     }
 
     private Map analyze(Map map,Integer[] aTerm){
         int loopTimes = 0;
-        JSArray series = new JSArray(Integer.class);
+        JSArray<Integer> series = new JSArray<Integer>(Integer.class);
         while(loopTimes < aTerm.length - 1){
-            Object curItem = aTerm[loopTimes];
-            Object nextItem = aTerm[loopTimes + 1];
-            if((int)nextItem - (int)curItem == 1){
+            Integer curItem = (Integer)aTerm[loopTimes];
+            Integer nextItem = (Integer)aTerm[loopTimes + 1];
+            if(nextItem - curItem == 1){
                 if(!series.include(curItem))series.push(curItem);
                 if(!series.include(nextItem))series.push(nextItem);
             }

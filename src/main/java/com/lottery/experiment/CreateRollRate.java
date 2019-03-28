@@ -2,13 +2,17 @@ package com.lottery.experiment;
 
 import com.lottery.product.*;
 import com.lottery.utils.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.lottery.callbacks.*;
 /**
  * Created by Andy-Super on 2019/3/14.
  */
 public class CreateRollRate {
-       private static JSArray allOfFormerAwardTerms;
+       private static Map allOfFormerAwardTerms = new HashMap<String,Integer[]>();
        public void run(){
-//           allOfFormerAwardTerms = getAllTerm();
            RollThread rt1 = new RollThread(
                new ThreadCallback() {
                    @Override
@@ -30,7 +34,7 @@ public class CreateRollRate {
        }
 
        public void natureRollRate(){
-           FileReader fr = new FileReader("src/main/db/base/amount.txt");
+           FileReader fr = new FileReader("src/main/db/base","amount.txt");
            Product pdt = new Product();
            RewardRecords rr = new RewardRecords();
 
@@ -39,7 +43,7 @@ public class CreateRollRate {
                Integer[] designatedTerm = analysisATerm(aLine);
                rr.defineAwardTarget(designatedTerm);
                rr.openInputStream("src/main/db/temp/natureRoll/");
-               int peerTermRollTimes = 1000 * 1000 * 1000;
+               int peerTermRollTimes = 1000 ;
                int loop;
                for(loop = 0;loop < peerTermRollTimes;loop ++){
                    Integer[] aTerm = pdt.productATerm();
@@ -48,31 +52,32 @@ public class CreateRollRate {
                rr.end();
            }
        }
+
        public void simulateRollRate(){
-           FileReader fr = new FileReader("src/main/db/base/amount.txt");
+           FileReader fr = new FileReader("src/main/db/base","amount.txt");
            Product pdt = new Product();
            RewardRecords rr = new RewardRecords();
            VerifyInvalidTerm vit = new VerifyInvalidTerm();
 
-           Integer[] blackList = {4,8,12,15,16,26};
+        //    Integer[] blackList = {4,8,12,15,16,26};
 //           vit.definedBlackList(blackList);
-           Integer[] insertRange = {29,30,31,32,33,34,35};
+        //    Integer[] insertRange = {29,30,31,32,33,34,35};
 //           vit.definedFixedItem(insertRange);
 
            // 逐行读取
            while(fr.hasNextLine()){
                String aLine = fr.readLine().byteToString();
                Integer[] designatedTerm = analysisATerm(aLine);
-               if(vit.isInValid(designatedTerm)){
+               if(vit.isInValid(designatedTerm) || vit.coupleLess(designatedTerm)){
                    continue;
                }
                rr.defineAwardTarget(designatedTerm);
                rr.openInputStream("src/main/db/temp/simulateRoll/");
-               int peerTermRollTimes = 1000 * 1000 * 1000;
+               int peerTermRollTimes = 1000 ;
                int loop;
                for(loop = 0;loop < peerTermRollTimes;loop ++){
                    Integer[] aTerm = pdt.productATerm();
-                   if(vit.isInValid(aTerm)){
+                   if(vit.isInValid(aTerm) || vit.coupleLess(aTerm)){
                        continue;
                    }
                    rr.record(aTerm,loop);
@@ -93,13 +98,14 @@ public class CreateRollRate {
            return designatedTerm;
        }
 
-       private JSArray getAllTerm(){
-           FileReader fr = new FileReader("src/main/db/base/amount.txt");
-           JSArray allTerm = new JSArray(Integer.class);
-           while(fr.hasNextLine()) {
+       private void getAllTerm(){
+           FileReader fr = new FileReader("src/main/db/base","amount.txt");
+        //    JSArray<Integer[]>  = new JSArray<Integer[]>(Integer.class);
+            while(fr.hasNextLine()) {
                String aLine = fr.readLine().byteToString();
-               allTerm.push(analysisATerm(aLine));
+               allOfFormerAwardTerms.put(aLine,analysisATerm(aLine));  
+
            }
-           return allTerm;
+        //    return allTerm;
        }
 }
