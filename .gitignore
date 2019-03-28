@@ -1,5 +1,14 @@
 .idea
+
+.vscode
 .settings
+
 target/
-random-picker.iml
+
+*.iml
+.iml
+
 temp
+
+.project
+.classpath
