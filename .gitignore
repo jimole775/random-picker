@@ -6,9 +6,5 @@
 target/
 
 *.iml
-.iml
 
 temp
-
-.project
-.classpath
