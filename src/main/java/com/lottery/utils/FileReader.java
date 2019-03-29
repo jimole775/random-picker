@@ -19,7 +19,7 @@ public class FileReader implements Pipe{
     private String osName = System.getProperties().getProperty("os.name");
     public FileReader(String path, String fileName) {
         File direction = new File(path);
-        String completeFilePath = direction.getAbsolutePath() + fileName;
+        String completeFilePath = direction.getAbsolutePath() + direction.separatorChar + fileName;
         try {
             ins = new FileInputStream(completeFilePath);
         } catch (IOException e){
@@ -81,7 +81,7 @@ public class FileReader implements Pipe{
     }
 
     public JSArray<Byte> readLine(){
-        JSArray aline = new JSArray<Byte>(Byte.class);
+        JSArray<Byte> aline = new JSArray<Byte>(Byte.class);
         while(true){
             byte data = readByte();
 
@@ -100,7 +100,7 @@ public class FileReader implements Pipe{
     }
 
     public JSArray<Byte> readFile(){
-        JSArray fileData = new JSArray<Byte>(Byte.class);
+        JSArray<Byte> fileData = new JSArray<Byte>(Byte.class);
         while(true){
             byte data = readByte();
 

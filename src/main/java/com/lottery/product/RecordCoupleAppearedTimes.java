@@ -10,7 +10,7 @@ public class RecordCoupleAppearedTimes {
     private Map frontCouples = new HashMap<String,Integer>();
     private Map behindCouples = new HashMap<String,Integer>();
     public void record(){
-        FileReader fr = new FileReader("src/main/db/base","amount.txt");
+        FileReader fr = new FileReader("src/main/db/base/","amount.txt");
         int lines = 0;
 
         while(fr.hasNextLine()) {

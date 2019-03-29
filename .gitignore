@@ -1,7 +1,12 @@
 .idea
+
+.vscode
 .settings
+
 target/
-random-picker.iml
+
+*.iml
+
 temp
 classes
 lib

@@ -17,6 +17,7 @@ public class VerifyInvalidTerm {
 
     private JSArray<String> coupleBlackList = null;
 
+    // 基础过滤规则
     public boolean isInValid(Integer[] aTerm){
         boolean result = false;
         if(hasSeriesDistance(aTerm)
@@ -141,7 +142,7 @@ public class VerifyInvalidTerm {
             Integer next = aTerm[i + 1];
             String couple = prev + "," + next;
             for(int j=0;j<blackListSize;j++){
-                if(coupleBlackList.get(j).equals(couple)){
+                if(couple.equals(coupleBlackList.get(j))){
                     isCoupleLess = true;
                     break;
                 }
@@ -151,11 +152,14 @@ public class VerifyInvalidTerm {
         return isCoupleLess;
     }
 
+    // 把号码组合次数出现少于10次的加入黑名单
     private JSArray<String> createCoupleBlackList(){
-        FileReader fw = new FileReader("src/main/db/base","couple_front.log");
+        FileReader fw = new FileReader("src/main/db/base/","couple_front.log");
         JSArray<String> blackList = new JSArray<String>(String.class);
         if(fw.hasNextLine()){
            String aLine = fw.readLine().byteToString();
+           aLine = aLine.replace("\n","");
+           aLine = aLine.replace("\r","");
            String[] aLineArr = aLine.split(":");
            String key = aLineArr[0];
            Integer val = Integer.parseInt(aLineArr[1]);
@@ -163,4 +167,5 @@ public class VerifyInvalidTerm {
         }
         return blackList;
     }
+
 }
