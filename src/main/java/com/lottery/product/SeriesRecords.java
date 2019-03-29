@@ -14,8 +14,8 @@ public class SeriesRecords {
 
     private Map<String,Integer> map_front = new HashMap<String, Integer>();
     private Map<String,Integer> map_behind = new HashMap<String, Integer>();
-    private String seriesRecordFilePath_front = "src/main/java/com/lottery/db/product/";
-    private String seriesRecordFilePath_behind = "src/main/java/com/lottery/db/product/";
+    private String seriesRecordFilePath_front = "src/main/java/com/lottery/db/base/";
+    private String seriesRecordFilePath_behind = "src/main/java/com/lottery/db/base/";
 
     private FileWriter fw_front = new FileWriter(seriesRecordFilePath_front,"seriesRecord_front.log");
     private FileWriter fw_behind = new FileWriter(seriesRecordFilePath_behind,"seriesRecord_behind.log");
