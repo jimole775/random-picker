@@ -46,7 +46,7 @@ public class CreateRollRate {
                 Integer[] designatedTerm = analysisATerm(aLine);
                 rr.defineAwardTarget(designatedTerm);
                 rr.openInputStream("src/main/db/temp/natureRoll/");
-                int peerTermRollTimes = 1000 * 1000 * 1000;
+                int peerTermRollTimes = 100 * 1000 * 1000;
                 int j;
                 for(j = 0;j < peerTermRollTimes;j ++){
                     Integer[] aTerm = pdt.productATerm();
@@ -74,11 +74,12 @@ public class CreateRollRate {
                }
                rr.defineAwardTarget(designatedTerm);
                rr.openInputStream("src/main/db/temp/simulateRoll/");
-               int peerTermRollTimes = 1000 * 1000 * 1000;
+               int peerTermRollTimes = 100 * 1000 * 1000;
                int j;
                for(j = 0;j < peerTermRollTimes;j ++){
                    Integer[] aTerm = pdt.productATerm();
                    if(vit.isInValid(aTerm) || vit.coupleLess(aTerm)){
+                       j--;
                        continue;
                    }
                    rr.record(aTerm,j);
@@ -112,10 +113,13 @@ public class CreateRollRate {
            aLine = aLine.replace("#","");
            aLine = aLine.replace("\n","");
            aLine = aLine.replace("\r","");
+
+           // 0x类型的数字转成x
            aLine = aLine.replace(",0",",");
            if(aLine.indexOf("0") == 0){
                aLine = aLine.substring(1,aLine.length());
            }
+
            return aLine;
        }
 }
