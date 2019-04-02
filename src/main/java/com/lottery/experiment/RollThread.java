@@ -5,10 +5,11 @@ import com.lottery.product.Product;
 import com.lottery.product.RewardRecords;
 import com.lottery.product.VerifyInvalidTerm;
 
+
 /**
  * Created by Andy-Super on 2019/3/26.
  */
-public class RollThread extends Thread{
+public class RollThread implements Runnable{
 //    private Integer[] designatedTerm;
 
     private RewardRecords natureRR = new RewardRecords();
@@ -34,9 +35,7 @@ public class RollThread extends Thread{
     }
 
     private void nature(){
-//        Product pdt = new Product();
-//        natureRR.defineAwardTarget(designatedTerm);
-        int peerTermRollTimes = 1000 * 1000;
+        int peerTermRollTimes = 100000;
         int j;
         for(j = 0;j < peerTermRollTimes;j ++){
             Integer[] aTerm = pdt.productATerm();
@@ -46,8 +45,7 @@ public class RollThread extends Thread{
     }
 
     private void simulate(){
-//        simulateRR.defineAwardTarget(designatedTerm);
-        int peerTermRollTimes = 1000 * 1000;
+        int peerTermRollTimes = 100000;
         int j;
         for(j = 0;j < peerTermRollTimes;j ++){
             Integer[] aTerm = pdt.productATerm();

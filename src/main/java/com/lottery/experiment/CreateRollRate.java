@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Date;
 import com.lottery.callbacks.*;
+
+
+import java.util.concurrent.*;
 /**
  * Created by Andy-Super on 2019/3/14.
  */
@@ -19,14 +22,21 @@ public class CreateRollRate {
        public void run(){
            allATerms = getAllTerm();
 
+           ExecutorService executor = Executors.newFixedThreadPool(allATerms.getSize() * 2);
            natureRollRate();
-           for (Thread threadItem:natureThreadArray) {
-               threadItem.start();
+           for (RollThread threadItem:natureThreadArray) {
+//               threadItem.start();
+               executor.submit(threadItem);
            }
            simulateRollRate();
-           for (Thread threadItem:simulateThreadArray) {
-               threadItem.start();
+           for (RollThread threadItem:simulateThreadArray) {
+//               threadItem.start();
+
+               executor.submit(threadItem);
            }
+
+
+           executor.shutdown();
        }
 
 
