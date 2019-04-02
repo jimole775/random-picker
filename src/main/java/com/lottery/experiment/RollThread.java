@@ -3,34 +3,61 @@ package com.lottery.experiment;
 import com.lottery.callbacks.*;
 import com.lottery.product.Product;
 import com.lottery.product.RewardRecords;
+import com.lottery.product.VerifyInvalidTerm;
 
 /**
  * Created by Andy-Super on 2019/3/26.
  */
 public class RollThread extends Thread{
-    private Integer[] designatedTerm;
-    public void setParams(Integer[] designatedTerm){
-        this.designatedTerm = designatedTerm;
-//        this.rr = rr;
-//        this.pdt = pdt;
+//    private Integer[] designatedTerm;
+
+    private RewardRecords natureRR = new RewardRecords();
+    private RewardRecords simulateRR = new RewardRecords();
+    private VerifyInvalidTerm vit = new VerifyInvalidTerm();
+    private Product pdt = new Product();
+
+    public void injectParam(Integer[] _designatedTerm){
+//        designatedTerm = _designatedTerm;
+        natureRR.defineAwardTarget(_designatedTerm);
+        simulateRR.defineAwardTarget(_designatedTerm);
+        natureRR.openInputStream("src/main/db/temp/natureRoll/");
+        simulateRR.openInputStream("src/main/db/temp/simulateRoll/");
     }
 
     public RollThread(Integer[] designatedTerm){
-        setParams(designatedTerm);
+        injectParam(designatedTerm);
     }
     @Override
     public void run(){
-        Product pdt = new Product();
-        RewardRecords rr = new RewardRecords();
-        rr.defineAwardTarget(designatedTerm);
-        rr.openInputStream("src/main/db/temp/natureRoll/");
-            int peerTermRollTimes = 1000 * 1000;
-            int j;
-            for(j = 0;j < peerTermRollTimes;j ++){
-                Integer[] aTerm = pdt.productATerm();
-                rr.record(aTerm,j);
+        nature();
+        simulate();
+    }
+
+    private void nature(){
+//        Product pdt = new Product();
+//        natureRR.defineAwardTarget(designatedTerm);
+        int peerTermRollTimes = 1000 * 1000;
+        int j;
+        for(j = 0;j < peerTermRollTimes;j ++){
+            Integer[] aTerm = pdt.productATerm();
+            natureRR.record(aTerm,j);
+        }
+        natureRR.end();
+    }
+
+    private void simulate(){
+//        simulateRR.defineAwardTarget(designatedTerm);
+        int peerTermRollTimes = 1000 * 1000;
+        int j;
+        for(j = 0;j < peerTermRollTimes;j ++){
+            Integer[] aTerm = pdt.productATerm();
+            if(vit.isInValid(aTerm) || vit.coupleLess(aTerm)){
+                j--;
+                continue;
             }
-        rr.end();
+            simulateRR.record(aTerm,j);
+        }
+        simulateRR.end();
     }
 
 }

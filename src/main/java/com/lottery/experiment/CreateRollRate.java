@@ -13,32 +13,18 @@ import com.lottery.callbacks.*;
  */
 public class CreateRollRate {
 
-    private ArrayList<RollThread> threadArray = new ArrayList<RollThread>();
-//    private JSArray<RollThread> threadArray = new JSArray<RollThread>(RollThread.class);
+    private ArrayList<RollThread> natureThreadArray = new ArrayList<RollThread>();
+    private ArrayList<RollThread> simulateThreadArray = new ArrayList<RollThread>();
     private JSArray<String> allATerms = new JSArray<String>(String.class);
        public void run(){
-//           RollThread rt1 = new RollThread(
-//               new ThreadCallback() {
-//                   @Override
-//                   public void entries() {
-//                       natureRollRate();
-//                   }
-//               }
-//           );
-//           RollThread rt2 = new RollThread(
-//               new ThreadCallback() {
-//                   @Override
-//                   public void entries() {
-//                       simulateRollRate();
-//                   }
-//               }
-//           );
            allATerms = getAllTerm();
-//           rt1.start();
-//           rt2.start();
 
            natureRollRate();
-           for (Thread threadItem:threadArray) {
+           for (Thread threadItem:natureThreadArray) {
+               threadItem.start();
+           }
+           simulateRollRate();
+           for (Thread threadItem:simulateThreadArray) {
                threadItem.start();
            }
        }
@@ -52,30 +38,14 @@ public class CreateRollRate {
                 String aLine = allATerms.get(i);
                 Integer[] designatedTerm = analysisATerm(aLine);
                 RollThread rt = new RollThread(designatedTerm);
-                threadArray.add(rt);
+                natureThreadArray.add(rt);
             }
 
        }
 
-//       private void rollLogic(Integer[] designatedTerm,RewardRecords rr, Product pdt){
-//
-//           rr.defineAwardTarget(designatedTerm);
-//           rr.openInputStream("src/main/db/temp/natureRoll/");
-//           int peerTermRollTimes = 1000 * 1000;
-//           int j;
-//           for(j = 0;j < peerTermRollTimes;j ++){
-//               Integer[] aTerm = pdt.productATerm();
-//               rr.record(aTerm,j);
-//           }
-//           rr.end();
-//       }
-
        public void simulateRollRate(){
-           Product pdt = new Product();
-           RewardRecords rr = new RewardRecords();
-           VerifyInvalidTerm vit = new VerifyInvalidTerm();
-            long startTime = new Date().getTime();
 
+           VerifyInvalidTerm vit = new VerifyInvalidTerm();
            int maxLen = allATerms.getSize();
            int i;
            for(i = 0;i<maxLen;i++){
@@ -84,20 +54,9 @@ public class CreateRollRate {
                if(vit.isInValid(designatedTerm) || vit.coupleLess(designatedTerm)){
                    continue;
                }
-               rr.defineAwardTarget(designatedTerm);
-               rr.openInputStream("src/main/db/temp/simulateRoll/");
-               int peerTermRollTimes = 1000 * 1000 * 1000;
-               int j;
-               for(j = 0;j < peerTermRollTimes;j ++){
-                   Integer[] aTerm = pdt.productATerm();
-                   if(vit.isInValid(aTerm) || vit.coupleLess(aTerm)){
-                       continue;
-                   }
-                   rr.record(aTerm,j);
-               }
-               rr.end();
+               RollThread rt = new RollThread(designatedTerm);
+               simulateThreadArray.add(rt);
            }
-           System.out.println("人工数消耗时长：" + (new Date().getTime() - startTime));
        }
 
        private Integer[] analysisATerm(String aLine){
