@@ -82,7 +82,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>com.xxg.Main</mainClass>
+                <mainClass>com.lottery.App</mainClass>
               </manifest>
             </archive>
             <descriptorRefs>
