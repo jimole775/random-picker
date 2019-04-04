@@ -41,7 +41,7 @@ public class CreateRateFoundation {
         int i = 10000;
         foundationStorage = new JSArray<Integer>(Integer.class,10000);
         String fileName = baseType == 35 ? fileName_front : fileName_behind;
-        JSONArray json_info = getJson("src/main/db/base/", fileName);
+        JSONArray json_info = getJson("src/main/java/com/lottery/db/base/", fileName);
         JSArray<Integer> timesRecord = new JSArray<Integer>(Integer.class,35);
         try{
 
