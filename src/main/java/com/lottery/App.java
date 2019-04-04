@@ -11,10 +11,10 @@ import com.lottery.product.RecordCoupleAppearedTimes;
 // import com.lottery.product.SeriesRecords;
 import com.lottery.utils.FileWriter;
 // import com.lottery.utils.JSArray;
-
+import java.util.concurrent.*;
 public class App
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws InterruptedException, ExecutionException
     {
         // RecordCoupleAppearedTimes rcat = new RecordCoupleAppearedTimes();
         // rcat.record();

@@ -3,67 +3,59 @@ package com.lottery.experiment;
 import com.lottery.product.*;
 import com.lottery.utils.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Date;
 import com.lottery.callbacks.*;
+
+
+import java.util.concurrent.*;
 /**
  * Created by Andy-Super on 2019/3/14.
  */
 public class CreateRollRate {
 
+    private ArrayList<RollThread> natureThreadArray = new ArrayList<RollThread>();
+    private ArrayList<RollThread> simulateThreadArray = new ArrayList<RollThread>();
     private JSArray<String> allATerms = new JSArray<String>(String.class);
        public void run(){
-           RollThread rt1 = new RollThread(
-               new ThreadCallback() {
-                   @Override
-                   public void entries() {
-                       natureRollRate();
-                   }
-               }
-           );
-           RollThread rt2 = new RollThread(
-               new ThreadCallback() {
-                   @Override
-                   public void entries() {
-                       simulateRollRate();
-                   }
-               }
-           );
            allATerms = getAllTerm();
-           rt1.start();
-           rt2.start();
+
+           ExecutorService executor = Executors.newFixedThreadPool(allATerms.getSize() * 2);
+           natureRollRate();
+           for (RollThread threadItem:natureThreadArray) {
+//               threadItem.start();
+               executor.submit(threadItem);
+           }
+           simulateRollRate();
+           for (RollThread threadItem:simulateThreadArray) {
+//               threadItem.start();
+
+               executor.submit(threadItem);
+           }
+
+
+           executor.shutdown();
        }
 
+
        public void natureRollRate(){
-           Product pdt = new Product();
-           RewardRecords rr = new RewardRecords();
-            long startTime = new Date().getTime();
+
             int maxLen = allATerms.getSize();
             int i;
             for(i = 0;i<maxLen;i++){
                 String aLine = allATerms.get(i);
                 Integer[] designatedTerm = analysisATerm(aLine);
-                rr.defineAwardTarget(designatedTerm);
-                rr.openInputStream("src/main/db/temp/natureRoll/");
-                int peerTermRollTimes = 1000 * 1000 * 1000;
-                int j;
-                for(j = 0;j < peerTermRollTimes;j ++){
-                    Integer[] aTerm = pdt.productATerm();
-                    rr.record(aTerm,j);
-                }
-                rr.end();
+                RollThread rt = new RollThread(designatedTerm);
+                natureThreadArray.add(rt);
             }
 
-           System.out.println("自然数摇取消耗时长：" + (new Date().getTime() - startTime));
        }
 
        public void simulateRollRate(){
-           Product pdt = new Product();
-           RewardRecords rr = new RewardRecords();
-           VerifyInvalidTerm vit = new VerifyInvalidTerm();
-            long startTime = new Date().getTime();
 
+           VerifyInvalidTerm vit = new VerifyInvalidTerm();
            int maxLen = allATerms.getSize();
            int i;
            for(i = 0;i<maxLen;i++){
@@ -72,20 +64,9 @@ public class CreateRollRate {
                if(vit.isInValid(designatedTerm) || vit.coupleLess(designatedTerm)){
                    continue;
                }
-               rr.defineAwardTarget(designatedTerm);
-               rr.openInputStream("src/main/db/temp/simulateRoll/");
-               int peerTermRollTimes = 1000 * 1000 * 1000;
-               int j;
-               for(j = 0;j < peerTermRollTimes;j ++){
-                   Integer[] aTerm = pdt.productATerm();
-                   if(vit.isInValid(aTerm) || vit.coupleLess(aTerm)){
-                       continue;
-                   }
-                   rr.record(aTerm,j);
-               }
-               rr.end();
+               RollThread rt = new RollThread(designatedTerm);
+               simulateThreadArray.add(rt);
            }
-           System.out.println("人工数消耗时长：" + (new Date().getTime() - startTime));
        }
 
        private Integer[] analysisATerm(String aLine){

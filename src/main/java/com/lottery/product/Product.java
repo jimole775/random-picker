@@ -6,15 +6,19 @@ import com.lottery.utils.JSArray;
  * Created by Andy-Super on 2019/2/12.
  */
 public class Product {
-    private CreateRateFoundation crf = new CreateRateFoundation();
-    private JSArray<Integer> front_foundation = crf.produce(35);
-    private JSArray<Integer> behind_foundation = crf.produce(12);
+    private CreateRateFoundation crf;
+    private JSArray<Integer> front_foundation;
+    private JSArray<Integer> behind_foundation;
 //    private Integer[] blackList = {};
 //    private Integer[] insertRangeList = {};
-    private JSArray<Integer> aTerm_front = new JSArray<Integer>(Integer.class);
-    private JSArray<Integer> aTerm_behind = new JSArray<Integer>(Integer.class);
+    private JSArray<Integer> aTerm_front;
+    private JSArray<Integer> aTerm_behind;
     public Product(){
-
+        crf = new CreateRateFoundation();
+        front_foundation = crf.produce(35);
+        behind_foundation = crf.produce(12);
+        aTerm_front = new JSArray<Integer>(Integer.class);
+        aTerm_behind = new JSArray<Integer>(Integer.class);
     }
 
 //    public void defineBlackList(Integer[] _blackList){
