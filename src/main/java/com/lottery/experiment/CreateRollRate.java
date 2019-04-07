@@ -31,11 +31,8 @@ public class CreateRollRate {
            simulateRollRate();
            for (RollThread threadItem:simulateThreadArray) {
 //               threadItem.start();
-
                executor.submit(threadItem);
            }
-
-
            executor.shutdown();
        }
 

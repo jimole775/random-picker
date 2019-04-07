@@ -35,7 +35,7 @@ public class RollThread implements Runnable{
     }
 
     private void nature(){
-        int peerTermRollTimes = 100000;
+        int peerTermRollTimes = 1000*1000*1000;
         int j;
         for(j = 0;j < peerTermRollTimes;j ++){
             Integer[] aTerm = pdt.productATerm();
@@ -45,7 +45,7 @@ public class RollThread implements Runnable{
     }
 
     private void simulate(){
-        int peerTermRollTimes = 100000;
+        int peerTermRollTimes = 1000*1000*1000;
         int j;
         for(j = 0;j < peerTermRollTimes;j ++){
             Integer[] aTerm = pdt.productATerm();
