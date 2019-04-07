@@ -10,7 +10,7 @@ public class RecordCoupleAppearedTimes {
     private Map frontCouples = new HashMap<String,Integer>();
     private Map behindCouples = new HashMap<String,Integer>();
     public void record(){
-        FileReader fr = new FileReader("src/main/db/base/","amount.txt");
+        FileReader fr = new FileReader("src/main/java/com/lottery/db/base/","amount.txt");
         int lines = 0;
 
         while(fr.hasNextLine()) {
@@ -25,8 +25,8 @@ public class RecordCoupleAppearedTimes {
     }
 
     public void write(){
-        FileWriter fw = new FileWriter("src/main/db/base/", "couple_front.log");        
-        FileWriter fw1 = new FileWriter("src/main/db/base/", "couple_behind.log");
+        FileWriter fw = new FileWriter("src/main/java/com/lottery/db/base/", "couple_front.log");
+        FileWriter fw1 = new FileWriter("src/main/java/com/lottery/db/base/", "couple_behind.log");
         int reseverCount = 0;
         for (Object key : frontCouples.keySet()){
             int values = (int)frontCouples.get(key);
