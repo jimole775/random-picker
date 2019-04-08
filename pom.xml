@@ -75,6 +75,8 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
+
+        <!--下面是在打包的时候手动配置入口类，不过并没有用，还是得使用IDE导出包,或许是打包命令的参数设置有问题-->
         <!--<plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>

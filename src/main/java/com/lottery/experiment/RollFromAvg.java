@@ -19,7 +19,7 @@ public class RollFromAvg {
     }
 
     public Integer run(){
-        String filePath = "src/main/java/com/lottery/db/experiment/";
+        String filePath = "src/main/db/experiment/";
         FileWriter fw = new FileWriter(filePath,"product.log");
         JSArray<String> terms = new JSArray<String>(String.class);
         awardLevel = 0;

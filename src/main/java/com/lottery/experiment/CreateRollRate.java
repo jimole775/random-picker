@@ -77,7 +77,7 @@ public class CreateRollRate {
        }
 
        private JSArray<String> getAllTerm(){
-           FileReader fr = new FileReader("src/main/java/com/lottery/db/base/","amount.txt");
+           FileReader fr = new FileReader("src/main/db/base/","amount.txt");
            JSArray<String> allATerms = new JSArray<String>(String.class);
             while(fr.hasNextLine()) {
                String aLine = fr.readLine().byteToString();
