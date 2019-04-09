@@ -1,10 +1,10 @@
-package com.lottery.utils;
+package com.common.utils;
 
 /**
  * Created by Andy-Super on 2018/12/21.
  */
 import java.util.ArrayList;
-import com.lottery.callbacks.*;
+import com.common.callbacks.*;
 public interface Pipe{
 
     // 注册管理pipe的所有回调，等到emit或者end调用的时候，统一调用

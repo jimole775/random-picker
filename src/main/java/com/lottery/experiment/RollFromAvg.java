@@ -1,10 +1,10 @@
 package com.lottery.experiment;
 
 import com.lottery.product.Product;
-import com.lottery.utils.AwardLevel;
-import com.lottery.utils.FileWriter;
-import com.lottery.utils.JSArray;
-import com.lottery.callbacks.*;
+import com.common.utils.AwardLevel;
+import com.common.utils.FileWriter;
+import com.common.utils.JSArray;
+import com.common.callbacks.*;
 
 /**
  * Created by Andy-Super on 2019/2/19.

@@ -1,10 +1,9 @@
 package com.lottery.product;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import com.lottery.utils.FileWriter;
-import com.lottery.utils.JSArray;
+import com.common.utils.FileWriter;
+import com.common.utils.JSArray;
 
 /**
  * Created by Andy-Super on 2019/2/13.

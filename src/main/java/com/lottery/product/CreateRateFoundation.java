@@ -1,11 +1,11 @@
 package com.lottery.product;
-import com.lottery.utils.FileReader;
+import com.common.utils.FileReader;
 //import com.google.gson.JsonArray;
 //import com.google.gson.JsonIOException;
 //import com.google.gson.JsonObject;
 //import com.google.gson.JsonParser;
 //import com.google.gson.JsonSyntaxException;
-import com.lottery.utils.JSArray;
+import com.common.utils.JSArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;

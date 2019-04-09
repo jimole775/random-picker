@@ -1,6 +1,6 @@
 package com.lottery.product;
 
-import com.lottery.utils.JSArray;
+import com.common.utils.JSArray;
 
 /**
  * Created by Andy-Super on 2019/2/12.

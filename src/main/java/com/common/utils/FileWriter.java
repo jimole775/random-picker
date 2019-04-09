@@ -1,10 +1,10 @@
-package com.lottery.utils;
+package com.common.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.lottery.callbacks.IOCallback;
+import com.common.callbacks.IOCallback;
 
 /**
  * Created by Andy-Super on 2018/12/25.

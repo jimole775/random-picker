@@ -1,16 +1,13 @@
-package com.lottery.utils;
+package com.common.utils;
 /**
  * Created by Andy-Super on 2018/12/21.
  */
 import java.io.InputStream;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
-import java.util.Arrays;
 import java.util.ArrayList;
-import com.lottery.callbacks.*;
-import com.lottery.interfaces.*;
+import com.common.callbacks.*;
 
 public class FileReader implements Pipe{
     private InputStream ins;

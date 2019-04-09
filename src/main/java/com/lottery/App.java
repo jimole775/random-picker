@@ -5,12 +5,11 @@ package com.lottery;
  *
  */
 import com.lottery.experiment.*;
-import com.lottery.product.RecordCoupleAppearedTimes;
 // import com.lottery.product.RewardRecords;
 // import com.lottery.product.Product;
 // import com.lottery.product.SeriesRecords;
-import com.lottery.utils.FileWriter;
-// import com.lottery.utils.JSArray;
+import com.common.utils.FileWriter;
+// import com.common.utils.JSArray;
 
 public class App
 {

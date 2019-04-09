@@ -1,7 +1,7 @@
-package com.lottery.utils;
+package com.common.utils;
 
 import java.lang.reflect.Array;
-import com.lottery.callbacks.*;
+import com.common.callbacks.*;
 /**
  * Created by Administrator on 2019/1/8.
  */

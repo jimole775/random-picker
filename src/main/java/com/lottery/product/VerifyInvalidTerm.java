@@ -1,8 +1,7 @@
 package com.lottery.product;
 
-import com.lottery.utils.FileReader;
-import com.lottery.utils.JSArray;
-import com.lottery.callbacks.*;
+import com.common.utils.FileReader;
+import com.common.utils.JSArray;
 
 import java.util.HashMap;
 import java.util.Map;

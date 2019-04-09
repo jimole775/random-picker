@@ -1,4 +1,4 @@
-package webapp.Client.common;
+package com.common;
 
 /**
  * Created by Administrator on 2019/3/29 0029.

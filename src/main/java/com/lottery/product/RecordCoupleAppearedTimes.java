@@ -3,8 +3,8 @@ package com.lottery.product;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.lottery.utils.FileReader;
-import com.lottery.utils.FileWriter;
+import com.common.utils.FileReader;
+import com.common.utils.FileWriter;
 
 public class RecordCoupleAppearedTimes {
     private Map frontCouples = new HashMap<String,Integer>();
