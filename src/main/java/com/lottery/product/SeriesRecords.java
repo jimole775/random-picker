@@ -2,7 +2,7 @@ package com.lottery.product;
 
 import java.util.HashMap;
 import java.util.Map;
-import com.common.utils.FileWriter;
+import com.common.utils.MyFileWriter;
 import com.common.utils.JSArray;
 
 /**
@@ -16,8 +16,8 @@ public class SeriesRecords {
     private String seriesRecordFilePath_front = "src/main/java/com/lottery/db/base/";
     private String seriesRecordFilePath_behind = "src/main/java/com/lottery/db/base/";
 
-    private FileWriter fw_front = new FileWriter(seriesRecordFilePath_front,"seriesRecord_front.log");
-    private FileWriter fw_behind = new FileWriter(seriesRecordFilePath_behind,"seriesRecord_behind.log");
+    private MyFileWriter fw_front = new MyFileWriter(seriesRecordFilePath_front,"seriesRecord_front.log");
+    private MyFileWriter fw_behind = new MyFileWriter(seriesRecordFilePath_behind,"seriesRecord_behind.log");
 
     public SeriesRecords(){
     }

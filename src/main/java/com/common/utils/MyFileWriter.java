@@ -9,9 +9,9 @@ import com.common.callbacks.IOCallback;
 /**
  * Created by Andy-Super on 2018/12/25.
  */
-public class FileWriter {
+public class MyFileWriter {
     private FileOutputStream fop;
-    public FileWriter(String path, String fileName){
+    public MyFileWriter(String path, String fileName){
         File direction = new File(path);
         if(!direction.exists()){
             direction.mkdir();
@@ -24,7 +24,7 @@ public class FileWriter {
         }
     }
 
-    public FileWriter write(String bufferString){
+    public MyFileWriter write(String bufferString){
         try {
             fop.write(bufferString.getBytes());
         } catch (IOException e){
@@ -33,7 +33,7 @@ public class FileWriter {
         return this;
     }
 
-    public FileWriter writeLine(String bufferString){
+    public MyFileWriter writeLine(String bufferString){
         try {
             fop.write((bufferString + compatibleWrapString()).getBytes());
         } catch (IOException e){

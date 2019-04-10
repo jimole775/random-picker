@@ -1,6 +1,6 @@
 package com.lottery.product;
 
-import com.common.utils.FileWriter;
+import com.common.utils.MyFileWriter;
 
 /**
  * Created by Andy-Super on 2019/2/12.
@@ -11,7 +11,7 @@ public class RewardRecords {
 
     private Integer[] awardTarget;
     private int[] no1,no2,no3;
-    private FileWriter fw1,fw2,fw3;
+    private MyFileWriter fw1,fw2,fw3;
     private String fileName = "";
     private String filePath = "";
     public RewardRecords(){
@@ -24,9 +24,9 @@ public class RewardRecords {
     }
 
     private void initWriter(){
-        fw1 = new FileWriter(filePath,fileName + "_no1.log");
-        fw2 = new FileWriter(filePath,fileName + "_no2.log");
-        fw3 = new FileWriter(filePath,fileName + "_no3.log");
+        fw1 = new MyFileWriter(filePath,fileName + "_no1.log");
+        fw2 = new MyFileWriter(filePath,fileName + "_no2.log");
+        fw3 = new MyFileWriter(filePath,fileName + "_no3.log");
     }
 
     public void defineAwardTarget(Integer[] designated){
@@ -45,7 +45,7 @@ public class RewardRecords {
     }
 
     //14,19,23,27,34,#06,#12
-    private void write(int[] rollTimesStorage,FileWriter writer,int curLoop){
+    private void write(int[] rollTimesStorage, MyFileWriter writer, int curLoop){
         if(rollTimesStorage[0] == 0){
             rollTimesStorage[0] = curLoop;
             writer.writeLine("sum:" + curLoop + ",dvd:" + 0);

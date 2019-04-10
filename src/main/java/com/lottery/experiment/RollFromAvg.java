@@ -2,7 +2,7 @@ package com.lottery.experiment;
 
 import com.lottery.product.Product;
 import com.common.utils.AwardLevel;
-import com.common.utils.FileWriter;
+import com.common.utils.MyFileWriter;
 import com.common.utils.JSArray;
 import com.common.callbacks.*;
 
@@ -20,7 +20,7 @@ public class RollFromAvg {
 
     public Integer run(){
         String filePath = "src/main/java/com/lottery/db/experiment/";
-        FileWriter fw = new FileWriter(filePath,"product.log");
+        MyFileWriter fw = new MyFileWriter(filePath,"product.log");
         JSArray<String> terms = new JSArray<String>(String.class);
         awardLevel = 0;
         Product r = new Product();
