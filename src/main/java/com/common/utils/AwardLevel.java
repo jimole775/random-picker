@@ -1,4 +1,4 @@
-package com.lottery.utils;
+package com.common.utils;
 
 /**
  * Created by Andy-Super on 2019/2/19.
