@@ -1,10 +1,10 @@
 package com.lottery.experiment;
 
 import com.lottery.product.Product;
-import com.lottery.utils.AwardLevel;
-import com.lottery.utils.FileWriter;
-import com.lottery.utils.JSArray;
-import com.lottery.callbacks.*;
+import com.common.utils.AwardLevel;
+import com.common.utils.MyFileWriter;
+import com.common.utils.JSArray;
+import com.common.callbacks.*;
 
 /**
  * Created by Andy-Super on 2019/2/19.
@@ -19,8 +19,8 @@ public class RollFromAvg {
     }
 
     public Integer run(){
-        String filePath = "src/main/java/com/lottery/db/experiment/";
-        FileWriter fw = new FileWriter(filePath,"product.log");
+        String filePath = "src/main/db/experiment/";
+        MyFileWriter fw = new MyFileWriter(filePath,"product.log");
         JSArray<String> terms = new JSArray<String>(String.class);
         awardLevel = 0;
         Product r = new Product();

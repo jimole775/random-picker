@@ -1,4 +1,4 @@
-package com.lottery.callbacks;
+package com.common.callbacks;
 
 /**
  * Created by Andy-Super on 2019/2/7.

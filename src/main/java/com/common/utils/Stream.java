@@ -1,6 +1,6 @@
-package com.lottery.utils;
+package com.common.utils;
 
-import com.lottery.callbacks.IOCallback;
+import com.common.callbacks.IOCallback;
 
 /**
  * Created by Andy-Super on 2018/12/21.

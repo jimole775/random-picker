@@ -1,8 +1,7 @@
 package com.lottery.product;
 
-import com.lottery.utils.FileReader;
-import com.lottery.utils.JSArray;
-import com.lottery.callbacks.*;
+import com.common.utils.MyFileReader;
+import com.common.utils.JSArray;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -154,7 +153,7 @@ public class VerifyInvalidTerm {
 
     // 把号码组合次数出现少于10次的加入黑名单
     private JSArray<String> createCoupleBlackList(){
-        FileReader fw = new FileReader("src/main/java/com/lottery/db/base/","couple_front.log");
+        MyFileReader fw = new MyFileReader("src/main/db/base/","couple_front.log");
         JSArray<String> blackList = new JSArray<String>(String.class);
         if(fw.hasNextLine()){
            String aLine = fw.readLine().byteToString();

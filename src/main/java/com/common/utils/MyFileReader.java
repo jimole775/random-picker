@@ -1,23 +1,20 @@
-package com.lottery.utils;
+package com.common.utils;
 /**
  * Created by Andy-Super on 2018/12/21.
  */
 import java.io.InputStream;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
-import java.util.Arrays;
 import java.util.ArrayList;
-import com.lottery.callbacks.*;
-import com.lottery.interfaces.*;
+import com.common.callbacks.*;
 
-public class FileReader implements Pipe{
+public class MyFileReader implements Pipe{
     private InputStream ins;
     private int insByteIndex = 0;
     private ArrayList<IOCallback> pipeCbRegister = new ArrayList<IOCallback>();
     private String osName = System.getProperties().getProperty("os.name");
-    public FileReader(String path, String fileName) {
+    public MyFileReader(String path, String fileName) {
         File direction = new File(path);
         String completeFilePath = direction.getAbsolutePath() + direction.separatorChar + fileName;
         try {
@@ -31,13 +28,13 @@ public class FileReader implements Pipe{
         return readHandle();
     }
 
-    public FileReader read(IOCallback cb) {
+    public MyFileReader read(IOCallback cb) {
         byte[] data = readByteHandle();
         cb.entries(data);
         return this;
     }
 
-    public FileReader readLine(IOCallback cb){
+    public MyFileReader readLine(IOCallback cb){
         byte[] data = readLineHandle();
         cb.entries(data);
         return this;
@@ -45,7 +42,7 @@ public class FileReader implements Pipe{
 
     // pipe需要存储所有回调，每读取一字节，就循环调用所有回调
     @Override
-    public FileReader pipe(IOCallback pipeCb){
+    public MyFileReader pipe(IOCallback pipeCb){
         pipeCbRegister.add(pipeCb);
         return this;
     }

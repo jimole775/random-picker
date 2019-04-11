@@ -1,11 +1,9 @@
 package com.lottery.experiment;
 
-import com.lottery.callbacks.*;
 import com.lottery.product.Product;
 import com.lottery.product.RewardRecords;
 import com.lottery.product.VerifyInvalidTerm;
-
-
+import com.common.callbacks.*;
 /**
  * Created by Andy-Super on 2019/3/26.
  */
@@ -21,8 +19,8 @@ public class RollThread implements Runnable{
 //        designatedTerm = _designatedTerm;
         natureRR.defineAwardTarget(_designatedTerm);
         simulateRR.defineAwardTarget(_designatedTerm);
-        natureRR.openInputStream("src/main/java/com/lottery/db/temp/natureRoll/");
-        simulateRR.openInputStream("src/main/java/com/lottery/db/temp/simulateRoll/");
+        natureRR.openInputStream("src/main/db/temp/natureRoll/");
+        simulateRR.openInputStream("src/main/db/temp/simulateRoll/");
     }
 
     public RollThread(Integer[] designatedTerm){

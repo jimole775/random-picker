@@ -6,3 +6,5 @@ target/
 temp
 classes/
 lib/
+node_modules
+package-lock.json

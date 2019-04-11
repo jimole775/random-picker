@@ -1,11 +1,11 @@
 package com.lottery.product;
-import com.lottery.utils.FileReader;
+import com.common.utils.MyFileReader;
 //import com.google.gson.JsonArray;
 //import com.google.gson.JsonIOException;
 //import com.google.gson.JsonObject;
 //import com.google.gson.JsonParser;
 //import com.google.gson.JsonSyntaxException;
-import com.lottery.utils.JSArray;
+import com.common.utils.JSArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -17,7 +17,7 @@ import org.json.JSONException;
 public class CreateRateFoundation {
 
     private JSONArray getJson(String path,String fileName){
-        FileReader frontReader = new FileReader(path,fileName);
+        MyFileReader frontReader = new MyFileReader(path,fileName);
         JSArray<Byte> jsonData = frontReader.readFile();
         JSONArray front_info = new JSONArray();
         try {
@@ -41,7 +41,7 @@ public class CreateRateFoundation {
         int i = 10000;
         foundationStorage = new JSArray<Integer>(Integer.class,10000);
         String fileName = baseType == 35 ? fileName_front : fileName_behind;
-        JSONArray json_info = getJson("src/main/java/com/lottery/db/base/", fileName);
+        JSONArray json_info = getJson("src/main/db/base/", fileName);
         JSArray<Integer> timesRecord = new JSArray<Integer>(Integer.class,35);
         try{
 

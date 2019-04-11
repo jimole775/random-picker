@@ -1,16 +1,14 @@
 package com.lottery.experiment;
 
 import com.lottery.product.*;
-import com.lottery.utils.*;
+import com.common.utils.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Date;
-import com.lottery.callbacks.*;
-
-
 import java.util.concurrent.*;
+import com.common.callbacks.*;
 /**
  * Created by Andy-Super on 2019/3/14.
  */
@@ -77,7 +75,7 @@ public class CreateRollRate {
        }
 
        private JSArray<String> getAllTerm(){
-           FileReader fr = new FileReader("src/main/java/com/lottery/db/base/","amount.txt");
+           MyFileReader fr = new MyFileReader("src/main/db/base/","amount.txt");
            JSArray<String> allATerms = new JSArray<String>(String.class);
             while(fr.hasNextLine()) {
                String aLine = fr.readLine().byteToString();
@@ -90,10 +88,13 @@ public class CreateRollRate {
            aLine = aLine.replace("#","");
            aLine = aLine.replace("\n","");
            aLine = aLine.replace("\r","");
+
+           // 0x类型的数字转成x
            aLine = aLine.replace(",0",",");
            if(aLine.indexOf("0") == 0){
                aLine = aLine.substring(1,aLine.length());
            }
+
            return aLine;
        }
 }
