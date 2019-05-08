@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "es6",
+        "target": "es5",
+        "jsx": "react",
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "lib":[
+            "dom","dom.iterable"
+        ]
+    },
+    "include": [
+        "./src/"
+    ]
+}
