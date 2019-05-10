@@ -1,14 +1,10 @@
 
 import React from "react";
-interface Click {
-    state:any;
-    timerID:any;
-    setState:Function
-}
+
 
 class Click extends React.Component{
     constructor(props){
-        super(props);
+        super(props); console.log(props); //props的值来自元素的自定义属性
         this.state = {date:new Date()}
     }
     componentDidMount() {
@@ -18,7 +14,7 @@ class Click extends React.Component{
           );
     }
     componentWillUnmount() {
-  
+        
     }
     tick() {
         this.setState({

@@ -1,16 +1,7 @@
 
 import React from "react";
 import ReactDom from "react-dom";
-declare interface TodoApp{
-    state:any;
-    setState:Function;
-    props:any;
-}
-declare interface TodoList{
-    state:any;
-    setState:Function;
-    props:any;
-}
+
 
 class TodoApp extends React.Component {
     constructor(props) {

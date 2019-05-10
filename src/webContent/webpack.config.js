@@ -3,11 +3,11 @@ var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var CleanWebpackPlugin = require("clean-webpack-plugin");
 var path = require("path");
 var root = path.join(__dirname,"/");
-var srcRoot = path.join(__dirname,"src");
+var srcRoot = path.join(__dirname,"src-react");
 var distRoot = path.join(__dirname,"dist");
 module.exports={
    entry:[
-       path.join(srcRoot,"index.tsx")
+       path.join(srcRoot,"index.jsx")
    ],
    
    target: "web",
@@ -17,9 +17,9 @@ module.exports={
    },
    mode:"development",
    resolve: {
-    extensions: [".ts", ".tsx", ".js", "jsx"],
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
    alias:{
-        "types":".d"
+     
    }
    },
    devtool: "inline-source-map",
