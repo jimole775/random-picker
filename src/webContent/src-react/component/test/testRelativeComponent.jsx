@@ -1,7 +1,8 @@
 
 import React from "react";
-import HC from "./HighComponent";
+import HighOrderComponent from "./HighComponent";
 
+@HighOrderComponent
 class Son extends React.Component{
     constructor(props){
         super(props);
@@ -20,6 +21,7 @@ class Son extends React.Component{
 
 }
 
+@HighOrderComponent
 class Father extends React.Component{
     constructor(){
         super();
@@ -48,10 +50,10 @@ class Father extends React.Component{
         });               
     }
     render(){
-        const NewSon = HC(Son);
+        // const NewSon = HC(Son);
         return (
             <div>
-                <NewSon emitEvent={this.state.getData}/>
+                <Son emitEvent={this.state.getData}/>
                 <span >{this.state.name}</span>
 
                 <div>
